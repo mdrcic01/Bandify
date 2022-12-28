@@ -1,4 +1,4 @@
-package com.java.bandify.service.user.model;
+package com.java.bandify.domain.service.user.model;
 
 import lombok.Getter;
 import lombok.Setter;

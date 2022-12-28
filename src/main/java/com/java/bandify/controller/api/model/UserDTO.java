@@ -1,6 +1,6 @@
-package com.java.bandify.controller.model;
+package com.java.bandify.controller.api.model;
 
-import com.java.bandify.service.user.model.User;
+import com.java.bandify.domain.service.user.model.User;
 import lombok.Builder;
 import lombok.Data;
 

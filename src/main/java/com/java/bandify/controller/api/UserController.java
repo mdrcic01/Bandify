@@ -1,7 +1,6 @@
-package com.java.bandify.controller;
+package com.java.bandify.controller.api;
 
-import com.java.bandify.controller.model.UserDTO;
-import java.util.Optional;
+import com.java.bandify.controller.api.model.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

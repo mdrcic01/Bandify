@@ -10,7 +10,19 @@
 
   <changeSet id="1" author="mdrcic">
     <createTable tableName="user">
-      <column name="id" type="int" autoIncrement="true" >
+      <column name="user_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="username" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="password" type="varchar(1024)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="user_profile">
+      <column name="user_profile_id" type="int">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="first_name" type="varchar(64)">
@@ -19,15 +31,139 @@
       <column name="last_name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
-      <column name="age" type="int">
+      <column name="postal_code" type="int">
         <constraints nullable="false"/>
       </column>
-      <column name="city" type="varchar(64)">
-        <constraints nullable="true"/>
+      <column name="user_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_user_profile" references="user(user_id)"/>
       </column>
-      <column name="instrument" type="varchar(64)">
-        <constraints nullable="true"/>
+      <column name="date_of_birth" type="date">
+        <constraints nullable="false"/>
       </column>
     </createTable>
+
+    <createTable tableName="nonmusician">
+      <column name="nonmusician_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="user_profile_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_nonmusician_userprofile" references="user_profile(user_profile_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="currency">
+      <column name="currency_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="currency_code" type="varchar(8)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="genre">
+      <column name="genre_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="genre_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="instrument">
+      <column name="instrument_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="instrument_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="band">
+      <column name="band_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="band_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="price" type="int">
+        <constraints nullable="true"/>
+      </column>
+      <column name="currency_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_band_currency" references="currency(currency_id)"/>
+      </column>
+      <column name="genre_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_band_genre" references="genre(genre_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="musician">
+      <column name="musician_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="user_profile_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_musician_userprofile" references="user_profile(user_profile_id)"/>
+      </column>
+      <column name="band_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_musician_band" references="band(band_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="band_position">
+      <column name="instrument_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_instrument_position" references="instrument(instrument_id)"/>
+      </column>
+      <column name="band_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_band" references="band(band_id)"/>
+      </column>
+      <column name="position_filled" type="boolean">
+        <constraints nullable="false"/>
+      </column>
+      <column name="musician_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_musician_position" references="musician(musician_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="musician_instrument">
+      <column name="musician_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_musician" references="musician(musician_id)"/>
+      </column>
+      <column name="instrument_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_instrument" references="instrument(instrument_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="country">
+      <column name="country_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="country_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="county">
+      <column name="county_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="county_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="country_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_county_country" references="country(country_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="town">
+      <column name="postal_code" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="town_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="county_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_town_county" references="county(county_id)"/>
+      </column>
+    </createTable>
+
   </changeSet>
 </databaseChangeLog>

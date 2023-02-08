@@ -11,28 +11,21 @@ import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Data;
 
-@Entity(name = "band")
+@Entity(name = "county")
 @Data
-public class BandEntity {
+public class CountyEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @Column(name = "band_name", length = 64, nullable = false)
-  private String bandName;
-
-  @Column(name = "price")
-  private Integer price;
+  @Column(name = "county_name", length = 64, nullable = false)
+  private String name;
 
   @ManyToOne
-  @JoinColumn(name = "currency_id")
-  private CurrencyEntity currency;
+  @JoinColumn(name = "country_id", nullable = false)
+  private CountryEntity country;
 
-  @ManyToOne
-  @JoinColumn(name = "genre_id")
-  private GenreEntity genre;
-
-  @OneToMany(mappedBy = "band")
-  private List<MusicianEntity> musicians;
+  @OneToMany(mappedBy = "county")
+  private List<TownEntity> towns;
 }

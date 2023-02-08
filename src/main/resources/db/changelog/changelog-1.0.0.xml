@@ -9,6 +9,42 @@
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
 
   <changeSet id="1" author="mdrcic">
+
+
+
+    <createTable tableName="country">
+      <column name="country_id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="country_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="county">
+      <column name="county_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="county_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="country_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_county_country" references="country(country_id)"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="town">
+      <column name="postal_code" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="town_name" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="county_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_town_county" references="county(county_id)"/>
+      </column>
+    </createTable>
+
     <createTable tableName="user">
       <column name="user_id" type="int">
         <constraints nullable="false" primaryKey="true"/>
@@ -32,7 +68,7 @@
         <constraints nullable="false"/>
       </column>
       <column name="postal_code" type="int">
-        <constraints nullable="false"/>
+        <constraints nullable="false" foreignKeyName="fk_user_town" references="town(postal_code)"/>
       </column>
       <column name="user_id" type="int">
         <constraints nullable="false" foreignKeyName="fk_user_profile" references="user(user_id)"/>
@@ -109,6 +145,9 @@
     </createTable>
 
     <createTable tableName="band_position">
+      <column name="band_position_id" type="int">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
       <column name="instrument_id" type="int">
         <constraints nullable="false" foreignKeyName="fk_instrument_position" references="instrument(instrument_id)"/>
       </column>
@@ -129,39 +168,6 @@
       </column>
       <column name="instrument_id" type="int">
         <constraints nullable="false" foreignKeyName="fk_instrument" references="instrument(instrument_id)"/>
-      </column>
-    </createTable>
-
-    <createTable tableName="country">
-      <column name="country_id" type="int">
-        <constraints nullable="false" primaryKey="true"/>
-      </column>
-      <column name="country_name" type="varchar(64)">
-        <constraints nullable="false"/>
-      </column>
-    </createTable>
-
-    <createTable tableName="county">
-      <column name="county_id" type="int">
-        <constraints primaryKey="true" nullable="false"/>
-      </column>
-      <column name="county_name" type="varchar(64)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="country_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_county_country" references="country(country_id)"/>
-      </column>
-    </createTable>
-
-    <createTable tableName="town">
-      <column name="postal_code" type="int">
-        <constraints primaryKey="true" nullable="false"/>
-      </column>
-      <column name="town_name" type="varchar(64)">
-        <constraints nullable="false"/>
-      </column>
-      <column name="county_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_town_county" references="county(county_id)"/>
       </column>
     </createTable>
 

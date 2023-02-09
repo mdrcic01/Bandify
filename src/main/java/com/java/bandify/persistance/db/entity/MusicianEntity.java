@@ -1,6 +1,7 @@
 package com.java.bandify.persistance.db.entity;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,14 +12,21 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity(name = "musician")
 @Data
+
+@RequiredArgsConstructor
 public class MusicianEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "musician_id")
   private Integer id;
 
   @OneToOne
@@ -36,6 +44,4 @@ public class MusicianEntity {
       inverseJoinColumns = { @JoinColumn(name = "instrument_id")}
   )
   private List<InstrumentEntity> instruments;
-
-
 }

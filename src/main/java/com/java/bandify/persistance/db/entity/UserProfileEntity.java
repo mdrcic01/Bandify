@@ -9,14 +9,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Entity(name = "user_profile")
 @Data
+@RequiredArgsConstructor
 public class UserProfileEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "user_profile_id")
   private Integer id;
 
   @Column(name = "first_name", nullable = false)

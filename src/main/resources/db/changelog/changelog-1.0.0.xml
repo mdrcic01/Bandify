@@ -13,7 +13,7 @@
 
 
     <createTable tableName="country">
-      <column name="country_id" type="int">
+      <column name="country_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="country_name" type="varchar(64)">
@@ -22,7 +22,7 @@
     </createTable>
 
     <createTable tableName="county">
-      <column name="county_id" type="int">
+      <column name="county_id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="county_name" type="varchar(64)">
@@ -46,7 +46,7 @@
     </createTable>
 
     <createTable tableName="user">
-      <column name="user_id" type="int">
+      <column name="user_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="username" type="varchar(64)">
@@ -58,7 +58,7 @@
     </createTable>
 
     <createTable tableName="user_profile">
-      <column name="user_profile_id" type="int">
+      <column name="user_profile_id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="first_name" type="varchar(64)">
@@ -79,7 +79,7 @@
     </createTable>
 
     <createTable tableName="nonmusician">
-      <column name="nonmusician_id" type="int">
+      <column name="nonmusician_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="user_profile_id" type="int">
@@ -88,7 +88,7 @@
     </createTable>
 
     <createTable tableName="currency">
-      <column name="currency_id" type="int">
+      <column name="currency_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="currency_code" type="varchar(8)">
@@ -97,7 +97,7 @@
     </createTable>
 
     <createTable tableName="genre">
-      <column name="genre_id" type="int">
+      <column name="genre_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="genre_name" type="varchar(64)">
@@ -106,7 +106,7 @@
     </createTable>
 
     <createTable tableName="instrument">
-      <column name="instrument_id" type="int">
+      <column name="instrument_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="instrument_name" type="varchar(64)">
@@ -115,7 +115,7 @@
     </createTable>
 
     <createTable tableName="band">
-      <column name="band_id" type="int">
+      <column name="band_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
       <column name="band_name" type="varchar(64)">
@@ -132,8 +132,17 @@
       </column>
     </createTable>
 
+    <createTable tableName="band_instrument">
+      <column name="instrument_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_instrument_band" references="instrument(instrument_id)"/>
+      </column>
+      <column name="band_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_band_instrument" references="band(band_id)"/>
+      </column>
+    </createTable>
+
     <createTable tableName="musician">
-      <column name="musician_id" type="int">
+      <column name="musician_id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
       <column name="user_profile_id" type="int">
@@ -141,24 +150,6 @@
       </column>
       <column name="band_id" type="int">
         <constraints nullable="true" foreignKeyName="fk_musician_band" references="band(band_id)"/>
-      </column>
-    </createTable>
-
-    <createTable tableName="band_position">
-      <column name="band_position_id" type="int">
-        <constraints primaryKey="true" nullable="false"/>
-      </column>
-      <column name="instrument_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_instrument_position" references="instrument(instrument_id)"/>
-      </column>
-      <column name="band_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_band" references="band(band_id)"/>
-      </column>
-      <column name="position_filled" type="boolean">
-        <constraints nullable="false"/>
-      </column>
-      <column name="musician_id" type="int">
-        <constraints nullable="true" foreignKeyName="fk_musician_position" references="musician(musician_id)"/>
       </column>
     </createTable>
 

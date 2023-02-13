@@ -54,4 +54,11 @@ public class BandEntity {
   )
   private List<InstrumentEntity> instruments;
 
+  public String getGenreName() {
+    return genre != null ? genre.getGenre() : null;
+  }
+
+  public String getCurrencyCode() {
+    return currency != null ? currency.getCode() : null;
+  }
 }

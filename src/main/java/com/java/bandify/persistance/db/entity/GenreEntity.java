@@ -29,5 +29,4 @@ public class GenreEntity {
 
   @OneToMany(mappedBy = "genre")
   private List<BandEntity> bands;
-
 }

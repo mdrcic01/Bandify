@@ -1,8 +1,7 @@
 package com.java.bandify.controller.api;
 
-import com.java.bandify.controller.api.model.BandDTO;
-import com.java.bandify.controller.api.model.UserProfileDTO;
-import com.java.bandify.domain.service.band.BandService;
+import com.java.bandify.controller.api.model.CountyDTO;
+import com.java.bandify.domain.service.county.CountyService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/band")
-public class BandController {
+@RequestMapping("/county")
+public class CountyController {
 
   @Autowired
-  private BandService bandService;
+  private CountyService countyService;
 
-  @GetMapping("/{bandId}")
-  public ResponseEntity<BandDTO> getBand(@PathVariable Integer bandId) {
+  @GetMapping("/{countyId}")
+  public ResponseEntity<CountyDTO> getCounty(@PathVariable Integer countyId) {
     try {
-      return ResponseEntity.ok(bandService.getBand(bandId));
+      return ResponseEntity.ok(countyService.getCounty(countyId));
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
@@ -32,9 +31,9 @@ public class BandController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<BandDTO>> getAllBands() {
+  public ResponseEntity<List<CountyDTO>> getAllCounties() {
     try {
-      return ResponseEntity.ok(bandService.getAllBands());
+      return ResponseEntity.ok(countyService.getAllCounties());
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();

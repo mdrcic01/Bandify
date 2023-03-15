@@ -33,4 +33,14 @@ public class UserProfileService {
 
     return userProfiles.stream().map(UserProfileDTO::from).collect(Collectors.toList());
   }
+
+  public UserProfileEntity fetchUserProfileIfExists(Integer userProfileId) throws NoSuchElementException {
+    Optional<UserProfileEntity> userProfile = userProfileRepository.findById(userProfileId.longValue());
+
+    if (userProfile.isEmpty()) {
+      throw new NoSuchElementException(String.format("User Profile with id %d does not exist in database", userProfileId));
+    }
+
+    return userProfile.get();
+  }
 }

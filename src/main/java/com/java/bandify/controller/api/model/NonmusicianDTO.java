@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 @Builder
 public class NonmusicianDTO {
-  private UserProfileDTO user;
+  private Integer userId;
 
   public static NonmusicianDTO from(NonmusicianEntity nonmusicianEntity) {
     return NonmusicianDTO.builder()
-        .user(UserProfileDTO.from(nonmusicianEntity.getUserProfile()))
+        .userId(nonmusicianEntity.getId())
         .build();
   }
 }

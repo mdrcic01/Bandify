@@ -10,19 +10,19 @@ import lombok.Data;
 @Data
 @Builder
 public class MusicianDTO {
-  private UserProfileDTO user;
+  private Integer userId;
   private BandDTO band;
-  private List<InstrumentDTO> instruments;
+  private List<Integer> instrumentIds;
 
   public static MusicianDTO from(MusicianEntity musicianEntity) {
     return MusicianDTO.builder()
-        .user(UserProfileDTO.from(musicianEntity.getUserProfile()))
+        .userId(musicianEntity.getUserProfile().getId())
         .band(BandDTO.from(musicianEntity.getBand()))
-        .instruments(getInstrumentDtoList(musicianEntity.getInstruments()))
+        .instrumentIds(getInstrumentDtoList(musicianEntity.getInstruments()))
         .build();
   }
 
-  private static List<InstrumentDTO> getInstrumentDtoList(List<InstrumentEntity> instrumentList) {
-    return instrumentList.stream().map(InstrumentDTO::from).collect(Collectors.toList());
+  private static List<Integer> getInstrumentDtoList(List<InstrumentEntity> instrumentList) {
+    return instrumentList.stream().map(InstrumentEntity::getId).collect(Collectors.toList());
   }
 }

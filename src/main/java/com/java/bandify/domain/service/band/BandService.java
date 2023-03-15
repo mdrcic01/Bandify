@@ -2,6 +2,8 @@ package com.java.bandify.domain.service.band;
 
 import com.java.bandify.controller.api.model.BandDTO;
 import com.java.bandify.persistance.db.entity.BandEntity;
+import com.java.bandify.persistance.db.entity.CurrencyEntity;
+import com.java.bandify.persistance.db.entity.GenreEntity;
 import com.java.bandify.persistance.db.repository.BandRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,5 +34,16 @@ public class BandService {
       throw new NoSuchElementException("No bands are available");
 
     return bands.stream().map(BandDTO::from).collect(Collectors.toList());
+  }
+
+  public void createOrEditBand(BandDTO bandDTO, Integer id) {
+    bandRepository.save(
+        BandEntity.builder()
+            .id(id)
+            .bandName(bandDTO.getBandName())
+            .genre(GenreEntity.builder().genre(bandDTO.getGenre()).build())
+            .currency(CurrencyEntity.builder().code(bandDTO.getCurrency()).build())
+            .build()
+    );
   }
 }

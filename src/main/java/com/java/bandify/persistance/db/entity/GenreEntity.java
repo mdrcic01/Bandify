@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "genre")
 @Data
-
+@Builder
 @RequiredArgsConstructor
 public class GenreEntity {
 

@@ -1,7 +1,9 @@
 package com.java.bandify.domain.service.nonmusician;
 
 import com.java.bandify.controller.api.model.NonmusicianDTO;
+import com.java.bandify.domain.service.user.UserProfileService;
 import com.java.bandify.persistance.db.entity.NonmusicianEntity;
+import com.java.bandify.persistance.db.entity.UserProfileEntity;
 import com.java.bandify.persistance.db.repository.NonmusicianRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -15,6 +17,8 @@ public class NonmusicianService {
 
   @Autowired
   private NonmusicianRepository nonmusicianRepository;
+  @Autowired
+  private UserProfileService userProfileService;
 
   public NonmusicianDTO getNonmusician(Integer nonmusicianId) throws NoSuchElementException {
     Optional<NonmusicianEntity> nonmusician = nonmusicianRepository.findById(Long.valueOf(nonmusicianId));
@@ -32,5 +36,16 @@ public class NonmusicianService {
       throw new NoSuchElementException("No nonmusicians are available");
 
     return nonmusicians.stream().map(NonmusicianDTO::from).collect(Collectors.toList());
+  }
+
+  public void addOrEditNonmusicians(NonmusicianDTO nonmusicianDTO, Integer nonmusicianId) throws NoSuchElementException {
+    UserProfileEntity userProfile = userProfileService.fetchUserProfileIfExists(nonmusicianDTO.getUserId());
+
+    nonmusicianRepository.save(
+      NonmusicianEntity.builder()
+          .id(nonmusicianId)
+          .userProfile(userProfile)
+          .build()
+    );
   }
 }

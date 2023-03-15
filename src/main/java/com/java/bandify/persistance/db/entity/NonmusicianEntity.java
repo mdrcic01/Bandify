@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "nonmusician")
 @Data
-
+@Builder
 @RequiredArgsConstructor
 public class NonmusicianEntity {
 

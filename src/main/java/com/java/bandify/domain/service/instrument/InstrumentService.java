@@ -36,4 +36,8 @@ public class InstrumentService {
 
     return instruments.stream().map(InstrumentDTO::from).collect(Collectors.toList());
   }
+
+  public List<InstrumentEntity> getInstrumentsById(List<Integer> instruments) {
+    return instrumentRepository.findAllById(instruments.stream().map(Integer::longValue).toList());
+  }
 }

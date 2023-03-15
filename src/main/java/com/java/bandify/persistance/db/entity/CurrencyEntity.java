@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "currency")
 @Data
-
+@Builder
 @RequiredArgsConstructor
 public class CurrencyEntity {
 

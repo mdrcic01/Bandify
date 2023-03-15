@@ -1,32 +1,31 @@
 package com.java.bandify.controller.api;
 
+import com.java.bandify.controller.api.model.InstrumentDTO;
 import com.java.bandify.controller.api.model.UserProfileDTO;
+import com.java.bandify.domain.service.instrument.InstrumentService;
 import com.java.bandify.domain.service.user.UserProfileService;
-import com.java.bandify.domain.service.user.model.User;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class InstrumentController {
 
   @Autowired
-  private UserProfileService userProfileService;
+  private InstrumentService instrumentService;
 
-  @GetMapping("/{userProfileId}")
-  public ResponseEntity<UserProfileDTO> getUser(@PathVariable Integer userProfileId) {
+  @GetMapping("/{instrumentId}")
+  public ResponseEntity<InstrumentDTO> getInstrument(@PathVariable Integer instrumentId) {
     try {
-      return ResponseEntity.ok(userProfileService.getUserProfile(userProfileId));
+      return ResponseEntity.ok(instrumentService.getInstrument(instrumentId));
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
@@ -34,9 +33,9 @@ public class UserController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<UserProfileDTO>> getAllUsers() {
+  public ResponseEntity<List<InstrumentDTO>> getAllInstruments() {
     try {
-      return ResponseEntity.ok(userProfileService.getAllUserProfiles());
+      return ResponseEntity.ok(instrumentService.getAllInstruments());
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();

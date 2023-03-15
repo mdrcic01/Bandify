@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "musician")
 @Data
-
+@Builder
 @RequiredArgsConstructor
 public class MusicianEntity {
 
@@ -44,4 +44,11 @@ public class MusicianEntity {
       inverseJoinColumns = { @JoinColumn(name = "instrument_id")}
   )
   private List<InstrumentEntity> instruments;
+
+  public Integer getUserProfileId() {
+    if(userProfile == null) {
+      return null;
+    }
+    return userProfile.getId();
+  }
 }

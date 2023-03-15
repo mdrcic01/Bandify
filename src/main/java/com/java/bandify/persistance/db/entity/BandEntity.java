@@ -12,15 +12,13 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity(name = "band")
 @Data
-
+@Builder
 @RequiredArgsConstructor
 public class BandEntity {
 
@@ -54,4 +52,11 @@ public class BandEntity {
   )
   private List<InstrumentEntity> instruments;
 
+  public String getGenreName() {
+    return genre != null ? genre.getGenre() : null;
+  }
+
+  public String getCurrencyCode() {
+    return currency != null ? currency.getCode() : null;
+  }
 }

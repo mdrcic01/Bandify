@@ -1,5 +1,6 @@
 package com.java.bandify.persistance.db.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 @Entity(name = "currency")
 @Data
 @Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class CurrencyEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "currency_id")
   private Integer id;
 

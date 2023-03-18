@@ -17,7 +17,7 @@ public class CurrencyService {
   private CurrencyRepository currencyRepository;
 
   public CurrencyDTO getCurrency(Integer currencyId) throws NoSuchElementException {
-    Optional<CurrencyEntity> currency = currencyRepository.findById(Long.valueOf(currencyId));
+    Optional<CurrencyEntity> currency = currencyRepository.findById(currencyId);
 
     if(currency.isEmpty())
       throw new NoSuchElementException("There is no currencies under id " + currencyId);
@@ -32,5 +32,14 @@ public class CurrencyService {
       throw new NoSuchElementException("No currencies are available");
 
     return currencies.stream().map(CurrencyDTO::from).collect(Collectors.toList());
+  }
+
+  public CurrencyEntity fetchCurrencyIfExistOrThrow(Integer currencyId) {
+    Optional<CurrencyEntity> currency = currencyRepository.findById(currencyId);
+    if(currency.isEmpty()) {
+      throw new NoSuchElementException(String.format("Currency uder id %d doesn't exist", currencyId));
+    }
+
+    return currency.get();
   }
 }

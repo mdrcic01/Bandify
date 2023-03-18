@@ -9,15 +9,15 @@ import lombok.Data;
 public class BandDTO {
   private String bandName;
   private Integer price;
-  private String currency;
-  private String genre;
+  private Integer currency;
+  private Integer genre;
 
   public static BandDTO from(BandEntity bandEntity) {
     return BandDTO.builder()
         .bandName(bandEntity.getBandName())
         .price(bandEntity.getPrice())
-        .currency(bandEntity.getCurrencyCode())
-        .genre(bandEntity.getGenreName())
+        .currency(bandEntity.getCurrencyId())
+        .genre(bandEntity.getGenreId())
         .build();
   }
 }

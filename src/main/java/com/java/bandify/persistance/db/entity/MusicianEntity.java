@@ -21,11 +21,12 @@ import lombok.RequiredArgsConstructor;
 @Entity(name = "musician")
 @Data
 @Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class MusicianEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "musician_id")
   private Integer id;
 

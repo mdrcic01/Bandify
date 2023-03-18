@@ -1,6 +1,8 @@
 package com.java.bandify.domain.service.band;
 
 import com.java.bandify.controller.api.model.BandDTO;
+import com.java.bandify.domain.service.currency.CurrencyService;
+import com.java.bandify.domain.service.genre.GenreService;
 import com.java.bandify.persistance.db.entity.BandEntity;
 import com.java.bandify.persistance.db.entity.CurrencyEntity;
 import com.java.bandify.persistance.db.entity.GenreEntity;
@@ -17,9 +19,13 @@ public class BandService {
 
   @Autowired
   private BandRepository bandRepository;
+  @Autowired
+  private GenreService genreService;
+  @Autowired
+  private CurrencyService currencyService;
 
   public BandDTO getBand(Integer bandId) throws NoSuchElementException {
-    Optional<BandEntity> band = bandRepository.findById(Long.valueOf(bandId));
+    Optional<BandEntity> band = bandRepository.findById(bandId);
 
     if(band.isEmpty())
       throw new NoSuchElementException("There is no bands under id " + bandId);
@@ -41,8 +47,9 @@ public class BandService {
         BandEntity.builder()
             .id(id)
             .bandName(bandDTO.getBandName())
-            .genre(GenreEntity.builder().genre(bandDTO.getGenre()).build())
-            .currency(CurrencyEntity.builder().code(bandDTO.getCurrency()).build())
+            .genre(genreService.fetchGenreIfExistsOrThrow(bandDTO.getGenre()))
+            .currency(currencyService.fetchCurrencyIfExistOrThrow(bandDTO.getCurrency()))
+            .price(bandDTO.getPrice())
             .build()
     );
   }

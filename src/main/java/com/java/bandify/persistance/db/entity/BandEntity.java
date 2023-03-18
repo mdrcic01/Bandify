@@ -11,19 +11,23 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Entity(name = "band")
+@Entity
+@Table(name = "band")
 @Data
 @Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class BandEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "band_id")
   private Integer id;
 
@@ -33,11 +37,11 @@ public class BandEntity {
   @Column(name = "price")
   private Integer price;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "currency_id")
   private CurrencyEntity currency;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "genre_id")
   private GenreEntity genre;
 
@@ -52,11 +56,11 @@ public class BandEntity {
   )
   private List<InstrumentEntity> instruments;
 
-  public String getGenreName() {
-    return genre != null ? genre.getGenre() : null;
+  public Integer getGenreId() {
+    return genre != null ? genre.getId() : null;
   }
 
-  public String getCurrencyCode() {
-    return currency != null ? currency.getCode() : null;
+  public Integer getCurrencyId() {
+    return currency != null ? currency.getId() : null;
   }
 }

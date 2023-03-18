@@ -17,11 +17,12 @@ import lombok.RequiredArgsConstructor;
 @Entity(name = "nonmusician")
 @Data
 @Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class NonmusicianEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "nonmusician_id")
   private Integer id;
 

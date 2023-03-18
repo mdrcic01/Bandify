@@ -4,6 +4,6 @@ import com.java.bandify.persistance.db.entity.BandEntity;
 import com.java.bandify.persistance.db.entity.UserProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserProfileRepository extends JpaRepository<UserProfileEntity, Long> {
+public interface UserProfileRepository extends JpaRepository<UserProfileEntity, Integer> {
 
 }

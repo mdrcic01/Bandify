@@ -17,7 +17,7 @@ public class GenreService {
   private GenreRepository genreRepository;
 
   public GenreDTO getGenre(Integer genreId) throws NoSuchElementException {
-    Optional<GenreEntity> genre = genreRepository.findById(Long.valueOf(genreId));
+    Optional<GenreEntity> genre = genreRepository.findById(genreId);
 
     if(genre.isEmpty())
       throw new NoSuchElementException("There is no genres under id " + genreId);
@@ -32,5 +32,14 @@ public class GenreService {
       throw new NoSuchElementException("No genres are available");
 
     return genres.stream().map(GenreDTO::from).collect(Collectors.toList());
+  }
+
+  public GenreEntity fetchGenreIfExistsOrThrow(Integer genreId) {
+    Optional<GenreEntity> genre = genreRepository.findById(genreId);
+    if(genre.isEmpty()) {
+      throw new NoSuchElementException(String.format("Genre under id %d doesn't exist", genreId));
+    }
+
+    return genre.get();
   }
 }

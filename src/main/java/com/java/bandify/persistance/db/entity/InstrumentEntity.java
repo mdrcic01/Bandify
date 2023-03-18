@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,12 @@ import lombok.RequiredArgsConstructor;
 @Entity(name = "instrument")
 @Data
 @Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class InstrumentEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "instrument_id")
   private Integer id;
 

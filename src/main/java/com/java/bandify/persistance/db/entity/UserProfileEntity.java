@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserProfileEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_profile_id")
   private Integer id;
 

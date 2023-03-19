@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "user")
 @Data
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class UserEntity {
 

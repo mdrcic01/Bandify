@@ -17,7 +17,7 @@ public class CountryService {
   private CountryRepository countryRepository;
 
   public CountryDTO getCountry(Integer countryId) throws NoSuchElementException {
-    Optional<CountryEntity> country = countryRepository.findById(Long.valueOf(countryId));
+    Optional<CountryEntity> country = countryRepository.findById(countryId);
 
     if(country.isEmpty())
       throw new NoSuchElementException("There is no countries under id " + countryId);

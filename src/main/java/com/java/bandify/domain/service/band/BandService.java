@@ -27,8 +27,9 @@ public class BandService {
   public BandDTO getBand(Integer bandId) throws NoSuchElementException {
     Optional<BandEntity> band = bandRepository.findById(bandId);
 
-    if(band.isEmpty())
+    if (band.isEmpty()) {
       throw new NoSuchElementException("There is no bands under id " + bandId);
+    }
 
     return BandDTO.from(band.get());
   }
@@ -36,21 +37,22 @@ public class BandService {
   public List<BandDTO> getAllBands() throws NoSuchElementException {
     List<BandEntity> bands = bandRepository.findAll();
 
-    if(bands.isEmpty())
+    if (bands.isEmpty()) {
       throw new NoSuchElementException("No bands are available");
+    }
 
     return bands.stream().map(BandDTO::from).collect(Collectors.toList());
   }
 
-  public void createOrEditBand(BandDTO bandDTO, Integer id) {
-    bandRepository.save(
-        BandEntity.builder()
-            .id(id)
-            .bandName(bandDTO.getBandName())
-            .genre(genreService.fetchGenreIfExistsOrThrow(bandDTO.getGenre()))
-            .currency(currencyService.fetchCurrencyIfExistOrThrow(bandDTO.getCurrency()))
-            .price(bandDTO.getPrice())
-            .build()
+  public BandEntity createOrEditBand(BandDTO bandDTO, Integer id) {
+    return bandRepository.save(
+            BandEntity.builder()
+                .id(id)
+                .bandName(bandDTO.getBandName())
+                .genre(genreService.fetchGenreIfExistsOrThrow(bandDTO.getGenre()))
+                .currency(currencyService.fetchCurrencyIfExistOrThrow(bandDTO.getCurrency()))
+                .price(bandDTO.getPrice())
+                .build()
     );
   }
 }

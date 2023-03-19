@@ -11,13 +11,13 @@ import lombok.Data;
 @Builder
 public class MusicianDTO {
   private Integer userId;
-  private BandDTO band;
+  private Integer bandId;
   private List<Integer> instrumentIds;
 
   public static MusicianDTO from(MusicianEntity musicianEntity) {
     return MusicianDTO.builder()
         .userId(musicianEntity.getUserProfile().getId())
-        .band(BandDTO.from(musicianEntity.getBand()))
+        .bandId(musicianEntity.getBandId())
         .instrumentIds(getInstrumentDtoList(musicianEntity.getInstruments()))
         .build();
   }

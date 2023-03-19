@@ -26,7 +26,7 @@ public class MusicianService {
   private UserProfileService userProfileService;
 
   public MusicianDTO getMusician(Integer musicianId) throws NoSuchElementException {
-    Optional<MusicianEntity> musician = musicianRepository.findById(Long.valueOf(musicianId));
+    Optional<MusicianEntity> musician = musicianRepository.findById(musicianId);
 
     if(musician.isEmpty())
       throw new NoSuchElementException("There is no musicians under id " + musicianId);
@@ -43,16 +43,16 @@ public class MusicianService {
     return musicians.stream().map(MusicianDTO::from).collect(Collectors.toList());
   }
 
-  public void addOrEditMusician(MusicianDTO musicianDTO, Integer musicianId) {
+  public MusicianEntity addOrEditMusician(MusicianDTO musicianDTO, Integer musicianId) {
     List<InstrumentEntity> instruments = instrumentService.getInstrumentsById(musicianDTO.getInstrumentIds());
     UserProfileEntity userProfile = userProfileService.fetchUserProfileIfExists(musicianDTO.getUserId());
 
-    musicianRepository.save(
-      MusicianEntity.builder()
-          .id(musicianId)
-          .instruments(instruments)
-          .userProfile(userProfile)
-          .build()
+    return musicianRepository.save(
+          MusicianEntity.builder()
+              .id(musicianId)
+              .instruments(instruments)
+              .userProfile(userProfile)
+              .build()
     );
   }
 }

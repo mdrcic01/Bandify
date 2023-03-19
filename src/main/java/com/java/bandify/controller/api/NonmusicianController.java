@@ -47,14 +47,14 @@ public class NonmusicianController {
   @PostMapping("/")
   public ResponseEntity<HttpStatus> addNewNonmusician(@RequestBody NonmusicianDTO nonmusicianDTO) {
 
-    nonmusicianService.addOrEditNonmusicians(nonmusicianDTO, null);
+    nonmusicianService.addOrEditNonmusician(nonmusicianDTO, null);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @PutMapping("/{nonmusicianId}")
   public ResponseEntity<HttpStatus> editNonmusician(@RequestBody NonmusicianDTO nonmusicianDTO, @PathVariable Integer nonmusicianId) {
 
-    nonmusicianService.addOrEditNonmusicians(nonmusicianDTO, nonmusicianId);
+    nonmusicianService.addOrEditNonmusician(nonmusicianDTO, nonmusicianId);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

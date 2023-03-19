@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "user_profile")
 @Data
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class UserProfileEntity {
 
@@ -47,4 +49,18 @@ public class UserProfileEntity {
 
   @OneToOne(mappedBy = "userProfile")
   private NonmusicianEntity nonmusician;
+
+  public String getUsername() {
+    if(user == null) {
+      return null;
+    }
+    return user.getUsername();
+  }
+
+  public String getTownName() {
+    if(town == null) {
+      return null;
+    }
+    return town.getName();
+  }
 }

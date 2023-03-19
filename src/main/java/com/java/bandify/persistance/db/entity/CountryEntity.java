@@ -15,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "country")
 @Data
-
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class CountryEntity {
 

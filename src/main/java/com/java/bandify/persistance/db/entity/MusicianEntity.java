@@ -52,4 +52,12 @@ public class MusicianEntity {
     }
     return userProfile.getId();
   }
+
+  public Integer getBandId() {
+    if(band == null) {
+      return null;
+    }
+
+    return band.getId();
+  }
 }

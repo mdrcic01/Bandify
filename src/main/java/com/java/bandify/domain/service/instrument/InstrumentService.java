@@ -20,7 +20,7 @@ public class InstrumentService {
   private InstrumentRepository instrumentRepository;
 
   public InstrumentDTO getInstrument(Integer instrumentId) throws NoSuchElementException {
-    Optional<InstrumentEntity> instrument = instrumentRepository.findById(Long.valueOf(instrumentId));
+    Optional<InstrumentEntity> instrument = instrumentRepository.findById(instrumentId);
 
     if(instrument.isEmpty())
       throw new NoSuchElementException("There is no instruments under id " + instrumentId);
@@ -38,6 +38,6 @@ public class InstrumentService {
   }
 
   public List<InstrumentEntity> getInstrumentsById(List<Integer> instruments) {
-    return instrumentRepository.findAllById(instruments.stream().map(Integer::longValue).toList());
+    return instrumentRepository.findAllById(instruments);
   }
 }

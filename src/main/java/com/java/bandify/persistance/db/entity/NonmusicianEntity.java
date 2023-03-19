@@ -29,4 +29,12 @@ public class NonmusicianEntity {
   @OneToOne
   @JoinColumn(name = "user_profile_id")
   private UserProfileEntity userProfile;
+
+  public Integer getUserProfileId() {
+    if(userProfile == null) {
+      return null;
+    }
+
+    return userProfile.getId();
+  }
 }

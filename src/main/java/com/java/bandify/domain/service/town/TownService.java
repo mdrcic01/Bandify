@@ -17,7 +17,7 @@ public class TownService {
   private TownRepository townRepository;
 
   public TownDTO getTown(Integer townId) throws NoSuchElementException {
-    Optional<TownEntity> town = townRepository.findById(Long.valueOf(townId));
+    Optional<TownEntity> town = townRepository.findById(townId);
 
     if(town.isEmpty())
       throw new NoSuchElementException("There is no towns under id " + townId);
@@ -32,5 +32,15 @@ public class TownService {
       throw new NoSuchElementException("No towns are available");
 
     return towns.stream().map(TownDTO::from).collect(Collectors.toList());
+  }
+
+  public TownEntity fetchTownEntityIfExistOrThrow(Integer townId) {
+    Optional<TownEntity> town = townRepository.findById(townId);
+
+    if(town.isEmpty()) {
+      throw new NoSuchElementException(String.format("Town with id %d doesn't exist", townId));
+    }
+
+    return town.get();
   }
 }

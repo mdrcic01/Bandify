@@ -17,7 +17,7 @@ public class CountyService {
   private CountyRepository countyRepository;
 
   public CountyDTO getCounty(Integer countyId) throws NoSuchElementException {
-    Optional<CountyEntity> county = countyRepository.findById(Long.valueOf(countyId));
+    Optional<CountyEntity> county = countyRepository.findById(countyId);
 
     if(county.isEmpty())
       throw new NoSuchElementException("There is no counties under id " + countyId);

@@ -15,7 +15,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity(name = "town")
 @Data
-
+@Builder
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class TownEntity {
 

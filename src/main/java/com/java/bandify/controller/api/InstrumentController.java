@@ -1,9 +1,7 @@
 package com.java.bandify.controller.api;
 
 import com.java.bandify.controller.api.model.InstrumentDTO;
-import com.java.bandify.controller.api.model.UserProfileDTO;
 import com.java.bandify.domain.service.instrument.InstrumentService;
-import com.java.bandify.domain.service.user.UserProfileService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;

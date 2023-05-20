@@ -27,8 +27,8 @@ public class NonmusicianEntity {
   private Integer id;
 
   @OneToOne
-  @JoinColumn(name = "user_profile_id")
-  private UserProfileEntity userProfile;
+  @JoinColumn(name = "user_id")
+  private UserEntity userProfile;
 
   public Integer getUserProfileId() {
     if(userProfile == null) {

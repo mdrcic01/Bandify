@@ -1,12 +1,11 @@
 package com.java.bandify.domain.service.musician;
 
 import com.java.bandify.controller.api.model.MusicianDTO;
-import com.java.bandify.controller.api.model.UserProfileDTO;
 import com.java.bandify.domain.service.instrument.InstrumentService;
-import com.java.bandify.domain.service.user.UserProfileService;
+import com.java.bandify.domain.service.user.UserService;
 import com.java.bandify.persistance.db.entity.InstrumentEntity;
 import com.java.bandify.persistance.db.entity.MusicianEntity;
-import com.java.bandify.persistance.db.entity.UserProfileEntity;
+import com.java.bandify.persistance.db.entity.UserEntity;
 import com.java.bandify.persistance.db.repository.MusicianRepository;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,7 +22,7 @@ public class MusicianService {
   @Autowired
   private InstrumentService instrumentService;
   @Autowired
-  private UserProfileService userProfileService;
+  private UserService userProfileService;
 
   public MusicianDTO getMusician(Integer musicianId) throws NoSuchElementException {
     Optional<MusicianEntity> musician = musicianRepository.findById(musicianId);
@@ -45,7 +44,7 @@ public class MusicianService {
 
   public MusicianEntity addOrEditMusician(MusicianDTO musicianDTO, Integer musicianId) {
     List<InstrumentEntity> instruments = instrumentService.getInstrumentsById(musicianDTO.getInstrumentIds());
-    UserProfileEntity userProfile = userProfileService.fetchUserProfileIfExists(musicianDTO.getUserId());
+    UserEntity userProfile = userProfileService.fetchUserIfExists(musicianDTO.getUserId());
 
     return musicianRepository.save(
           MusicianEntity.builder()

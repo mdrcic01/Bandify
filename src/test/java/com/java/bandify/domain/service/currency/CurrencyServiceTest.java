@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-import com.java.bandify.controller.api.model.CountyDTO;
 import com.java.bandify.controller.api.model.CurrencyDTO;
-import com.java.bandify.persistance.db.entity.CountyEntity;
 import com.java.bandify.persistance.db.entity.CurrencyEntity;
 import com.java.bandify.persistance.db.repository.CurrencyRepository;
 import java.util.Collections;

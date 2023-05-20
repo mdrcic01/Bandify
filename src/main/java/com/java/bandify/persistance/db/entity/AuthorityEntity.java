@@ -5,28 +5,27 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Entity(name = "country")
 @Data
 @Builder
+@Entity
+@Table(name = "authority")
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class CountryEntity {
+public class AuthorityEntity {
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Integer id;
+     @Column(name = "name", nullable = false)
+     private String name;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "country_id")
-  private Integer id;
-
-  @Column(name = "country_name", length = 64, nullable = false)
-  private String name;
-
-  @OneToMany(mappedBy = "country")
-  private List<StateEntity> counties;
+     @ManyToMany(mappedBy = "authorities")
+     private List<UserEntity> users;
 }

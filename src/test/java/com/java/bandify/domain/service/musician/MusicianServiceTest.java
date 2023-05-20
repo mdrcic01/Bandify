@@ -9,15 +9,13 @@ import static org.mockito.Mockito.when;
 
 import com.java.bandify.controller.api.model.MusicianDTO;
 import com.java.bandify.domain.service.instrument.InstrumentService;
-import com.java.bandify.domain.service.user.UserProfileService;
+import com.java.bandify.domain.service.user.UserService;
 import com.java.bandify.persistance.db.entity.CountryEntity;
-import com.java.bandify.persistance.db.entity.CountyEntity;
+import com.java.bandify.persistance.db.entity.StateEntity;
 import com.java.bandify.persistance.db.entity.InstrumentEntity;
 import com.java.bandify.persistance.db.entity.MusicianEntity;
-import com.java.bandify.persistance.db.entity.TownEntity;
+import com.java.bandify.persistance.db.entity.CityEntity;
 import com.java.bandify.persistance.db.entity.UserEntity;
-import com.java.bandify.persistance.db.entity.UserProfileEntity;
-import com.java.bandify.persistance.db.repository.InstrumentRepository;
 import com.java.bandify.persistance.db.repository.MusicianRepository;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -44,7 +42,7 @@ public class MusicianServiceTest {
   @Mock
   private InstrumentService instrumentService;
   @Mock
-  private UserProfileService userProfileService;
+  private UserService userProfileService;
   @Captor
   private ArgumentCaptor<MusicianEntity> musicianEntityArgumentCaptor;
 
@@ -52,9 +50,7 @@ public class MusicianServiceTest {
   @Test
   public void getMusician_should_returnMusicianDTO_when_requestedMusicianExist() {
     MusicianEntity musician = buildMusicianEntity(1,
-        buildUserProfileEntity("Marko", "Markic", 1,
-            buildUserEntity("mmarkic", "strongPass")
-        )
+        buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")
     );
     when(musicianRepository.findById(anyInt())).thenReturn(Optional.of(musician));
 
@@ -100,7 +96,7 @@ public class MusicianServiceTest {
   @Test
   public void addOrEditMusician_should_addNewMusician_when_givenIdIsNull() {
     MusicianDTO musicianDTO = buildMusicianDTO();
-    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, buildUserEntity("ttest", "ttest")));
+    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "ttest"));
     when(musicianRepository.save(musicianEntityArgumentCaptor.capture())).thenReturn(musicianEntity);
 
     //ACTION
@@ -113,7 +109,7 @@ public class MusicianServiceTest {
   @Test
   public void addOrEditMusician_should_editExistingMusician_when_givenIdIsNotNull() {
     MusicianDTO musicianDTO = buildMusicianDTO();
-    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, buildUserEntity("ttest", "ttest")));
+    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "ttest"));
     when(musicianRepository.save(musicianEntityArgumentCaptor.capture())).thenReturn(musicianEntity);
 
     //ACTION
@@ -133,13 +129,13 @@ public class MusicianServiceTest {
 
   private List<MusicianEntity> buildMusicianEntityList() {
     return List.of(
-        buildMusicianEntity(1, buildUserProfileEntity("Marko", "Markic", 1, buildUserEntity("mmarkic", "strongPass"))),
-        buildMusicianEntity(2, buildUserProfileEntity("Ivan", "Ivic", 2, buildUserEntity("iivic", "strongPass"))),
-        buildMusicianEntity(3, buildUserProfileEntity("Marin", "Marinic", 3, buildUserEntity("mmarinic", "strongPass")))
+        buildMusicianEntity(1, buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")),
+        buildMusicianEntity(2, buildUserProfileEntity("Ivan", "Ivic", 2, "iivic", "strongPass")),
+        buildMusicianEntity(3, buildUserProfileEntity("Marin", "Marinic", 3, "mmarinic", "strongPass"))
     );
   }
 
-  private MusicianEntity buildMusicianEntity(Integer id, UserProfileEntity userProfile) {
+  private MusicianEntity buildMusicianEntity(Integer id, UserEntity userProfile) {
     return MusicianEntity.builder()
         .id(id)
         .userProfile(userProfile)
@@ -162,34 +158,28 @@ public class MusicianServiceTest {
         .build();
   }
 
-  private UserProfileEntity buildUserProfileEntity(String firstName, String lastName, Integer id, UserEntity user) {
-    return UserProfileEntity.builder()
+  private UserEntity buildUserProfileEntity(String firstName, String lastName, Integer id, String username, String password) {
+    return UserEntity.builder()
         .id(id)
         .firstName(firstName)
         .lastName(lastName)
-        .town(buildTownEntity())
+        .city(buildCityEntity())
         .dateOfBirth(LocalDateTime.parse("2022-12-12T13:22:22"))
-        .user(user)
-        .build();
-  }
-
-  private UserEntity buildUserEntity(String username, String password) {
-    return UserEntity.builder()
         .username(username)
         .password(password)
         .build();
   }
 
-  private TownEntity buildTownEntity() {
-    return TownEntity.builder()
+  private CityEntity buildCityEntity() {
+    return CityEntity.builder()
         .name("Town")
         .postalCode(12356)
-        .county(buildCountyEntity())
+        .state(buildStateEntity())
         .build();
   }
 
-  private CountyEntity buildCountyEntity() {
-    return CountyEntity.builder()
+  private StateEntity buildStateEntity() {
+    return StateEntity.builder()
         .id(1)
         .country(buildCountryEntity())
         .name("County")

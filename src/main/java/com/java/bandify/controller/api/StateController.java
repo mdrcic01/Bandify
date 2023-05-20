@@ -1,7 +1,7 @@
 package com.java.bandify.controller.api;
 
-import com.java.bandify.controller.api.model.TownDTO;
-import com.java.bandify.domain.service.town.TownService;
+import com.java.bandify.controller.api.model.StateDTO;
+import com.java.bandify.domain.service.state.StateService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/town")
-public class TownController {
+@RequestMapping("/state")
+public class StateController {
 
   @Autowired
-  private TownService townService;
+  private StateService stateService;
 
-  @GetMapping("/{townId}")
-  public ResponseEntity<TownDTO> getTown(@PathVariable Integer townId) {
+  @GetMapping("/{stateId}")
+  public ResponseEntity<StateDTO> getState(@PathVariable Integer stateId) {
     try {
-      return ResponseEntity.ok(townService.getTown(townId));
+      return ResponseEntity.ok(stateService.getState(stateId));
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
@@ -31,9 +31,9 @@ public class TownController {
   }
 
   @GetMapping("/")
-  public ResponseEntity<List<TownDTO>> getAllTowns() {
+  public ResponseEntity<List<StateDTO>> getAllStates() {
     try {
-      return ResponseEntity.ok(townService.getAllTowns());
+      return ResponseEntity.ok(stateService.getAllStates());
     } catch (NoSuchElementException e) {
       return ResponseEntity.of(
           ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();

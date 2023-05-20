@@ -1,4 +1,4 @@
-package com.java.bandify.domain.service.nonnonmusician;
+package com.java.bandify.domain.service.nonmusician;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,15 +8,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.java.bandify.controller.api.model.NonmusicianDTO;
-import com.java.bandify.domain.service.instrument.InstrumentService;
 import com.java.bandify.domain.service.nonmusician.NonmusicianService;
-import com.java.bandify.domain.service.user.UserProfileService;
+import com.java.bandify.domain.service.user.UserService;
 import com.java.bandify.persistance.db.entity.CountryEntity;
-import com.java.bandify.persistance.db.entity.CountyEntity;
+import com.java.bandify.persistance.db.entity.StateEntity;
 import com.java.bandify.persistance.db.entity.NonmusicianEntity;
-import com.java.bandify.persistance.db.entity.TownEntity;
+import com.java.bandify.persistance.db.entity.CityEntity;
 import com.java.bandify.persistance.db.entity.UserEntity;
-import com.java.bandify.persistance.db.entity.UserProfileEntity;
 import com.java.bandify.persistance.db.repository.NonmusicianRepository;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -40,8 +38,6 @@ public class NonmusicianServiceTest {
   private NonmusicianService nonmusicianService;
   @Mock
   private NonmusicianRepository nonmusicianRepository;
-  @Mock
-  private UserProfileService userProfileService;
   @Captor
   private ArgumentCaptor<NonmusicianEntity> nonmusicianEntityArgumentCaptor;
 
@@ -49,9 +45,7 @@ public class NonmusicianServiceTest {
   @Test
   public void getNonmusician_should_returnNonmusicianDTO_when_requestedNonmusicianExist() {
     NonmusicianEntity nonmusician = buildNonmusicianEntity(1,
-        buildUserProfileEntity("Marko", "Markic", 1,
-            buildUserEntity("mmarkic", "strongPass")
-        )
+        buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")
     );
     when(nonmusicianRepository.findById(anyInt())).thenReturn(Optional.of(nonmusician));
 
@@ -95,7 +89,7 @@ public class NonmusicianServiceTest {
   @Test
   public void addOrEditNonmusician_should_addNewNonmusician_when_givenIdIsNull() {
     NonmusicianDTO nonmusicianDTO = buildNonmusicianDTO();
-    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1, buildUserEntity("ttest", "ttest")));
+    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1,"ttest", "ttest"));
     when(nonmusicianRepository.save(nonmusicianEntityArgumentCaptor.capture())).thenReturn(nonmusicianEntity);
 
     //ACTION
@@ -108,7 +102,7 @@ public class NonmusicianServiceTest {
   @Test
   public void addOrEditNonmusician_should_editExistingNonmusician_when_givenIdIsNotNull() {
     NonmusicianDTO nonmusicianDTO = buildNonmusicianDTO();
-    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1, buildUserEntity("ttest", "ttest")));
+    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "tt"));
     when(nonmusicianRepository.save(nonmusicianEntityArgumentCaptor.capture())).thenReturn(nonmusicianEntity);
 
     //ACTION
@@ -126,47 +120,41 @@ public class NonmusicianServiceTest {
 
   private List<NonmusicianEntity> buildNonmusicianEntityList() {
     return List.of(
-        buildNonmusicianEntity(1, buildUserProfileEntity("Marko", "Markic", 1, buildUserEntity("mmarkic", "strongPass"))),
-        buildNonmusicianEntity(2, buildUserProfileEntity("Ivan", "Ivic", 2, buildUserEntity("iivic", "strongPass"))),
-        buildNonmusicianEntity(3, buildUserProfileEntity("Marin", "Marinic", 3, buildUserEntity("mmarinic", "strongPass")))
+        buildNonmusicianEntity(1, buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "mm")),
+        buildNonmusicianEntity(2, buildUserProfileEntity("Ivan", "Ivic", 2, "iivic", "ii")),
+        buildNonmusicianEntity(3, buildUserProfileEntity("Marin", "Marinic", 3, "mmarinic", "mm"))
     );
   }
 
-  private NonmusicianEntity buildNonmusicianEntity(Integer id, UserProfileEntity userProfile) {
+  private NonmusicianEntity buildNonmusicianEntity(Integer id, UserEntity userProfile) {
     return NonmusicianEntity.builder()
         .id(id)
         .userProfile(userProfile)
         .build();
   }
 
-  private UserProfileEntity buildUserProfileEntity(String firstName, String lastName, Integer id, UserEntity user) {
-    return UserProfileEntity.builder()
-        .id(id)
-        .firstName(firstName)
-        .lastName(lastName)
-        .town(buildTownEntity())
-        .dateOfBirth(LocalDateTime.parse("2022-12-12T13:22:22"))
-        .user(user)
-        .build();
-  }
-
-  private UserEntity buildUserEntity(String username, String password) {
+  private UserEntity buildUserProfileEntity(String firstName, String lastName, Integer id, String username, String password) {
     return UserEntity.builder()
+        .id(id)
         .username(username)
         .password(password)
+        .firstName(firstName)
+        .lastName(lastName)
+        .city(buildTownEntity())
+        .dateOfBirth(LocalDateTime.parse("2022-12-12T13:22:22"))
         .build();
   }
 
-  private TownEntity buildTownEntity() {
-    return TownEntity.builder()
+  private CityEntity buildTownEntity() {
+    return CityEntity.builder()
         .name("Town")
         .postalCode(12356)
-        .county(buildCountyEntity())
+        .state(buildCountyEntity())
         .build();
   }
 
-  private CountyEntity buildCountyEntity() {
-    return CountyEntity.builder()
+  private StateEntity buildCountyEntity() {
+    return StateEntity.builder()
         .id(1)
         .country(buildCountryEntity())
         .name("County")

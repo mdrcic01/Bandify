@@ -7,33 +7,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-@Entity(name = "county")
+@Entity(name = "city")
 @Data
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class CountyEntity {
+public class CityEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "county_id")
-  private Integer id;
+  @Column(name = "postal_code")
+  private Integer postalCode;
 
-  @Column(name = "county_name", length = 64, nullable = false)
+  @Column(name = "city_name", length = 64, nullable = false)
   private String name;
 
   @ManyToOne
-  @JoinColumn(name = "country_id", nullable = false)
-  private CountryEntity country;
-
-  @OneToMany(mappedBy = "county")
-  private List<TownEntity> towns;
+  @JoinColumn(name = "state_id", nullable = false)
+  private StateEntity state;
 }

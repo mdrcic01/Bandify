@@ -1,6 +1,6 @@
 package com.java.bandify.controller.api.model;
 
-import com.java.bandify.persistance.db.entity.UserProfileEntity;
+import com.java.bandify.persistance.db.entity.UserEntity;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -16,13 +16,13 @@ public class UserProfileDTO {
   private String town;
   private String username;
 
-  public static UserProfileDTO from(UserProfileEntity userProfile) {
+  public static UserProfileDTO from(UserEntity userProfile) {
     return UserProfileDTO.builder()
         .firstName(userProfile.getFirstName())
         .lastName(userProfile.getLastName())
         .dateOfBirth(userProfile.getDateOfBirth())
-        .town(userProfile.getTown().getName())
-        .username(userProfile.getUser().getUsername())
+        .town(userProfile.getCity().getName())
+        .username(userProfile.getUsername())
         .build();
   }
 }

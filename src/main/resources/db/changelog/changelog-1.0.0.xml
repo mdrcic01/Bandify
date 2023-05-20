@@ -21,27 +21,27 @@
       </column>
     </createTable>
 
-    <createTable tableName="county">
-      <column name="county_id" type="int" autoIncrement="true">
+    <createTable tableName="state">
+      <column name="state_id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
-      <column name="county_name" type="varchar(64)">
+      <column name="state_name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
       <column name="country_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_county_country" references="country(country_id)"/>
+        <constraints nullable="false" foreignKeyName="fk_state_country" references="country(country_id)"/>
       </column>
     </createTable>
 
-    <createTable tableName="town">
+    <createTable tableName="city">
       <column name="postal_code" type="int">
         <constraints primaryKey="true" nullable="false"/>
       </column>
-      <column name="town_name" type="varchar(64)">
+      <column name="city_name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
-      <column name="county_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_town_county" references="county(county_id)"/>
+      <column name="state_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_city_state" references="state(state_id)"/>
       </column>
     </createTable>
 
@@ -55,12 +55,6 @@
       <column name="password" type="varchar(1024)">
         <constraints nullable="false"/>
       </column>
-    </createTable>
-
-    <createTable tableName="user_profile">
-      <column name="user_profile_id" type="int" autoIncrement="true">
-        <constraints primaryKey="true" nullable="false"/>
-      </column>
       <column name="first_name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
@@ -68,12 +62,27 @@
         <constraints nullable="false"/>
       </column>
       <column name="postal_code" type="int">
-        <constraints nullable="false" foreignKeyName="fk_user_town" references="town(postal_code)"/>
-      </column>
-      <column name="user_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_user_profile" references="user(user_id)"/>
+        <constraints nullable="false" foreignKeyName="fk_user_city" references="city(postal_code)"/>
       </column>
       <column name="date_of_birth" type="date">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="user_authority">
+      <column name="user_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="authority_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+
+    <createTable tableName="authority">
+      <column name="id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
     </createTable>

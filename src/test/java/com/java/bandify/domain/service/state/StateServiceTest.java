@@ -1,14 +1,14 @@
-package com.java.bandify.domain.service.county;
+package com.java.bandify.domain.service.state;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-import com.java.bandify.controller.api.model.CountyDTO;
+import com.java.bandify.controller.api.model.StateDTO;
 import com.java.bandify.persistance.db.entity.CountryEntity;
-import com.java.bandify.persistance.db.entity.CountyEntity;
-import com.java.bandify.persistance.db.repository.CountyRepository;
+import com.java.bandify.persistance.db.entity.StateEntity;
+import com.java.bandify.persistance.db.repository.StateRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,20 +22,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-public class CountyServiceTest {
+public class StateServiceTest {
 
   @InjectMocks
-  private CountyService countyService;
+  private StateService stateService;
   @Mock
-  private CountyRepository countyRepository;
+  private StateRepository stateRepository;
 
   @Test
   public void getCounty_should_returnCountyDTO_when_requestedCountyExist() {
-    CountyEntity county = buildCountyEntity(1, "County");
-    when(countyRepository.findById(anyInt())).thenReturn(Optional.of(county));
+    StateEntity county = buildCountyEntity(1, "County");
+    when(stateRepository.findById(anyInt())).thenReturn(Optional.of(county));
 
     //ACTION
-    CountyDTO countyDTO = countyService.getCounty(1);
+    StateDTO countyDTO = stateService.getState(1);
 
     assertThat(countyDTO.getId()).isEqualTo(county.getId());
     assertThat(countyDTO.getName()).isEqualTo(county.getName());
@@ -43,19 +43,19 @@ public class CountyServiceTest {
 
   @Test
   public void getCounty_should_throwException_when_requestedCountyDoesNotExist() {
-    when(countyRepository.findById(anyInt())).thenReturn(Optional.empty());
+    when(stateRepository.findById(anyInt())).thenReturn(Optional.empty());
 
     //ACTION
-    assertThrows(NoSuchElementException.class, () -> countyService.getCounty(1));
+    assertThrows(NoSuchElementException.class, () -> stateService.getState(1));
   }
 
   @Test
   public void getAllCounties_should_returnPopulatedList_when_anyCountiesAreAvailable() {
-    List<CountyEntity> countyEntities = buildCountyEntityList();
-    when(countyRepository.findAll()).thenReturn(countyEntities);
+    List<StateEntity> countyEntities = buildCountyEntityList();
+    when(stateRepository.findAll()).thenReturn(countyEntities);
 
     //ACTION
-    List<CountyDTO> countyDTOs = countyService.getAllCounties();
+    List<StateDTO> countyDTOs = stateService.getAllStates();
 
     assertThat(countyDTOs.size()).isEqualTo(countyEntities.size());
     assertThat(countyDTOs.get(0).getName()).isEqualTo(countyEntities.get(0).getName());
@@ -68,13 +68,13 @@ public class CountyServiceTest {
 
   @Test
   public void getAllCounties_should_throwException_when_noCountiesAreAvailable() {
-    when(countyRepository.findAll()).thenReturn(Collections.emptyList());
+    when(stateRepository.findAll()).thenReturn(Collections.emptyList());
 
     //ACTION
-    assertThrows(NoSuchElementException.class, () -> countyService.getAllCounties());
+    assertThrows(NoSuchElementException.class, () -> stateService.getAllStates());
   }
 
-  private List<CountyEntity> buildCountyEntityList() {
+  private List<StateEntity> buildCountyEntityList() {
     return List.of(
         buildCountyEntity(1, "County1"),
         buildCountyEntity(2, "County2"),
@@ -82,8 +82,8 @@ public class CountyServiceTest {
     );
   }
 
-  private CountyEntity buildCountyEntity(Integer id, String name) {
-    return CountyEntity.builder()
+  private StateEntity buildCountyEntity(Integer id, String name) {
+    return StateEntity.builder()
         .id(id)
         .country(buildCountryEntity())
         .name(name)

@@ -31,8 +31,8 @@ public class MusicianEntity {
   private Integer id;
 
   @OneToOne
-  @JoinColumn(name = "user_profile_id", nullable = false)
-  private UserProfileEntity userProfile;
+  @JoinColumn(name = "user_id", nullable = false)
+  private UserEntity userProfile;
 
   @ManyToOne
   @JoinColumn(name = "band_id")

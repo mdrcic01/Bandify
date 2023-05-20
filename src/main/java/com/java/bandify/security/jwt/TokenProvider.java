@@ -7,13 +7,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import java.security.Key;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,9 +18,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-@Slf4j
+import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 @Component
 public class TokenProvider {
+    private final Logger log = LoggerFactory.getLogger(com.java.bandify.security.jwt.TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -47,19 +49,20 @@ public class TokenProvider {
     }
 
     public String createToken(Authentication authentication) {
-        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
+        String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(
+            Collectors.joining(","));
 
         long now = (new Date()).getTime();
         Date validity;
         validity = new Date(now + this.tokenValidityInMilliseconds);
 
         return Jwts
-                .builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .setExpiration(validity)
-                .compact();
+            .builder()
+            .setSubject(authentication.getName())
+            .claim(AUTHORITIES_KEY, authorities)
+            .signWith(key, SignatureAlgorithm.HS512)
+            .setExpiration(validity)
+            .compact();
     }
 
     public Authentication getAuthentication(String token) {

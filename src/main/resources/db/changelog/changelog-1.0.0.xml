@@ -91,8 +91,8 @@
       <column name="nonmusician_id" type="int" autoIncrement="true">
         <constraints nullable="false" primaryKey="true"/>
       </column>
-      <column name="user_profile_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_nonmusician_userprofile" references="user_profile(user_profile_id)"/>
+      <column name="user_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_nonmusician_userprofile" references="user(user_id)"/>
       </column>
     </createTable>
 
@@ -154,8 +154,8 @@
       <column name="musician_id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
       </column>
-      <column name="user_profile_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_musician_userprofile" references="user_profile(user_profile_id)"/>
+      <column name="user_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_musician_userprofile" references="user(user_id)"/>
       </column>
       <column name="band_id" type="int">
         <constraints nullable="true" foreignKeyName="fk_musician_band" references="band(band_id)"/>

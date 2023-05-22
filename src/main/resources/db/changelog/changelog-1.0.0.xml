@@ -69,21 +69,21 @@
       </column>
     </createTable>
 
-    <createTable tableName="user_authority">
-      <column name="user_id" type="int">
-        <constraints nullable="false"/>
+    <createTable tableName="authority">
+      <column name="id" type="int">
+        <constraints nullable="false" primaryKey="true"/>
       </column>
-      <column name="authority_id" type="int">
+      <column name="name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
     </createTable>
 
-    <createTable tableName="authority">
-      <column name="id" type="int">
-        <constraints nullable="false"/>
+    <createTable tableName="user_authority">
+      <column name="user_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_user_authority" references="user(user_id)"/>
       </column>
-      <column name="name" type="varchar(64)">
-        <constraints nullable="false"/>
+      <column name="authority_id" type="int">
+        <constraints nullable="false" foreignKeyName="fk_authority_user" references="authority(id)"/>
       </column>
     </createTable>
 

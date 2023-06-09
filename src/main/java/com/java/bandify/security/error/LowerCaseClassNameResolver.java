@@ -1,8 +1,11 @@
 package com.java.bandify.security.error;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;
 
+@Component
 class LowerCaseClassNameResolver extends TypeIdResolverBase {
 
     @Override

@@ -13,33 +13,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class CurrencyService {
 
-  @Autowired
-  private CurrencyRepository currencyRepository;
+     @Autowired
+     private CurrencyRepository currencyRepository;
 
-  public CurrencyDTO getCurrency(Integer currencyId) throws NoSuchElementException {
-    Optional<CurrencyEntity> currency = currencyRepository.findById(currencyId);
+     public CurrencyDTO getCurrency(Integer currencyId) throws NoSuchElementException {
+          Optional<CurrencyEntity> currency = currencyRepository.findById(currencyId);
 
-    if(currency.isEmpty())
-      throw new NoSuchElementException("There is no currencies under id " + currencyId);
+          if (currency.isEmpty()) {
+               throw new NoSuchElementException("There is no currencies under id " + currencyId);
+          }
 
-    return CurrencyDTO.from(currency.get());
-  }
+          return CurrencyDTO.from(currency.get());
+     }
 
-  public List<CurrencyDTO> getAllCurrencies() throws NoSuchElementException {
-    List<CurrencyEntity> currencies = currencyRepository.findAll();
+     public CurrencyEntity getCurrency(String value) throws NoSuchElementException {
+          CurrencyEntity currency = currencyRepository.findByCode(value);
 
-    if(currencies.isEmpty())
-      throw new NoSuchElementException("No currencies are available");
+          if (currency == null) {
+               throw new NoSuchElementException("There is no currencies under id " + value);
+          }
 
-    return currencies.stream().map(CurrencyDTO::from).collect(Collectors.toList());
-  }
+          return currency;
+     }
 
-  public CurrencyEntity fetchCurrencyIfExistOrThrow(Integer currencyId) {
-    Optional<CurrencyEntity> currency = currencyRepository.findById(currencyId);
-    if(currency.isEmpty()) {
-      throw new NoSuchElementException(String.format("Currency uder id %d doesn't exist", currencyId));
-    }
+     public List<CurrencyDTO> getAllCurrencies() throws NoSuchElementException {
+          List<CurrencyEntity> currencies = currencyRepository.findAll();
 
-    return currency.get();
-  }
+          if (currencies.isEmpty()) {
+               throw new NoSuchElementException("No currencies are available");
+          }
+
+          return currencies.stream().map(CurrencyDTO::from).collect(Collectors.toList());
+     }
 }

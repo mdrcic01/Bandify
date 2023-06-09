@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,28 +16,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/state")
+@CrossOrigin("http://localhost:3000")
 public class StateController {
 
-  @Autowired
-  private StateService stateService;
+     @Autowired
+     private StateService stateService;
 
-  @GetMapping("/{stateId}")
-  public ResponseEntity<StateDTO> getState(@PathVariable Integer stateId) {
-    try {
-      return ResponseEntity.ok(stateService.getState(stateId));
-    } catch (NoSuchElementException e) {
-      return ResponseEntity.of(
-          ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
-    }
-  }
+     @GetMapping("/{stateId}")
+     public ResponseEntity<StateDTO> getState(@PathVariable Integer stateId) {
+          try {
+               return ResponseEntity.ok(stateService.getState(stateId));
+          } catch (NoSuchElementException e) {
+               return ResponseEntity.of(
+                   ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
+          }
+     }
 
-  @GetMapping("/")
-  public ResponseEntity<List<StateDTO>> getAllStates() {
-    try {
-      return ResponseEntity.ok(stateService.getAllStates());
-    } catch (NoSuchElementException e) {
-      return ResponseEntity.of(
-          ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
-    }
-  }
+     @GetMapping("bycountry/{countryId}")
+     public ResponseEntity<List<StateDTO>> getStateByCountry(@PathVariable Integer countryId) {
+          try {
+               return ResponseEntity.ok(stateService.getStateByCountry(countryId));
+          } catch (NoSuchElementException e) {
+               return ResponseEntity.of(
+                   ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
+          }
+     }
+
+     @GetMapping
+     public ResponseEntity<List<StateDTO>> getAllStates() {
+          try {
+               return ResponseEntity.ok(stateService.getAllStates());
+          } catch (NoSuchElementException e) {
+               return ResponseEntity.of(
+                   ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
+          }
+     }
 }

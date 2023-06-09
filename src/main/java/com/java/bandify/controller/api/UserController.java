@@ -1,8 +1,7 @@
 package com.java.bandify.controller.api;
 
-import com.java.bandify.controller.api.model.GenreDTO;
-import com.java.bandify.domain.service.genre.GenreService;
-import java.util.List;
+import com.java.bandify.domain.service.user.UserService;
+import com.java.bandify.persistance.db.entity.UserEntity;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -15,30 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/genre")
+@RequestMapping("/user")
 @CrossOrigin("http://localhost:3000")
-public class GenreController {
+public class UserController {
 
      @Autowired
-     private GenreService genreService;
+     private UserService userService;
 
-     @GetMapping("/{genreId}")
-     public ResponseEntity<GenreDTO> getGenre(@PathVariable Integer genreId) {
+     @GetMapping("/{userId}")
+     public ResponseEntity<UserEntity> getState(@PathVariable Integer userId) {
           try {
-               return ResponseEntity.ok(genreService.getGenre(genreId));
+               return ResponseEntity.ok(userService.fetchUserIfExists(userId));
           } catch (NoSuchElementException e) {
                return ResponseEntity.of(
                    ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
           }
      }
 
-     @GetMapping
-     public ResponseEntity<List<GenreDTO>> getAllGenres() {
-          try {
-               return ResponseEntity.ok(genreService.getAllGenres());
-          } catch (NoSuchElementException e) {
-               return ResponseEntity.of(
-                   ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(400), e.getMessage())).build();
-          }
-     }
 }

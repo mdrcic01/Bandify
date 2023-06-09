@@ -13,33 +13,35 @@ import org.springframework.stereotype.Service;
 @Service
 public class GenreService {
 
-  @Autowired
-  private GenreRepository genreRepository;
+     @Autowired
+     private GenreRepository genreRepository;
 
-  public GenreDTO getGenre(Integer genreId) throws NoSuchElementException {
-    Optional<GenreEntity> genre = genreRepository.findById(genreId);
+     public GenreDTO getGenre(Integer genreId) throws NoSuchElementException {
+          Optional<GenreEntity> genre = genreRepository.findById(genreId);
 
-    if(genre.isEmpty())
-      throw new NoSuchElementException("There is no genres under id " + genreId);
+          if (genre.isEmpty()) {
+               throw new NoSuchElementException("There is no genres under id " + genreId);
+          }
 
-    return GenreDTO.from(genre.get());
-  }
+          return GenreDTO.from(genre.get());
+     }
 
-  public List<GenreDTO> getAllGenres() throws NoSuchElementException {
-    List<GenreEntity> genres = genreRepository.findAll();
+     public List<GenreDTO> getAllGenres() throws NoSuchElementException {
+          List<GenreEntity> genres = genreRepository.findAll();
 
-    if(genres.isEmpty())
-      throw new NoSuchElementException("No genres are available");
+          if (genres.isEmpty()) {
+               throw new NoSuchElementException("No genres are available");
+          }
 
-    return genres.stream().map(GenreDTO::from).collect(Collectors.toList());
-  }
+          return genres.stream().map(GenreDTO::from).collect(Collectors.toList());
+     }
 
-  public GenreEntity fetchGenreIfExistsOrThrow(Integer genreId) {
-    Optional<GenreEntity> genre = genreRepository.findById(genreId);
-    if(genre.isEmpty()) {
-      throw new NoSuchElementException(String.format("Genre under id %d doesn't exist", genreId));
-    }
+     public GenreEntity fetchGenreByName(String genreName) {
+          GenreEntity genre = genreRepository.findByGenre(genreName);
+          if (genre == null) {
+               throw new NoSuchElementException(String.format("Genre with name %s doesn't exist", genreName));
+          }
 
-    return genre.get();
-  }
+          return genre;
+     }
 }

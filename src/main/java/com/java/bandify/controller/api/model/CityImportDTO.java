@@ -6,8 +6,9 @@ import lombok.Data;
 @Builder
 @Data
 public class CityImportDTO {
-  private Integer id;
-  private String name;
-  private Integer state_id;
+
+     private Integer id;
+     private String name;
+     private Integer state_id;
 
 }

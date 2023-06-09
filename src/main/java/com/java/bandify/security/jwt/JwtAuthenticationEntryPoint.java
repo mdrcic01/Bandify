@@ -31,7 +31,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException {
-        ApiError apiError = new ApiError(UNAUTHORIZED);
+    	ApiError apiError = new ApiError(UNAUTHORIZED);
         apiError.setMessage(e.getMessage());
         apiError.setDebugMessage(e.getMessage());
 

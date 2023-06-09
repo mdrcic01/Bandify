@@ -5,60 +5,75 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-@Entity(name = "user")
-@Data
+@Entity
+@Table(name = "user")
 @Builder
+@Data
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UserEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_id")
-  private Integer id;
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "user_id")
+     private Integer id;
 
-  @Column(name = "username")
-  private String username;
+     @Column(name = "username")
+     private String username;
 
-  @Column(name = "password")
-  private String password;
+     @Column(name = "password")
+     private String password;
 
-  @Column(name = "first_name")
-  private String firstName;
+     @Column(name = "first_name")
+     private String firstName;
 
-  @Column(name = "last_name")
-  private String lastName;
+     @Column(name = "last_name")
+     private String lastName;
 
-  @Column(name = "date_of_birth")
-  private LocalDateTime dateOfBirth;
+     @Column(name = "user_type")
+     private String userType;
 
-  @ManyToMany
-  @JoinTable(
-      name = "user_authority",
-      joinColumns = @JoinColumn(name = "user_id"),
-      inverseJoinColumns = @JoinColumn(name = "authority_id"))
-  private List<AuthorityEntity> authorities;
+     @Column(name = "date_of_birth")
+     private LocalDate dateOfBirth;
 
-  @ManyToOne
-  @JoinColumn(name = "postal_code")
-  private CityEntity city;
+     @ManyToMany
+     @JoinTable(
+         name = "user_authority",
+         joinColumns = @JoinColumn(name = "user_id"),
+         inverseJoinColumns = @JoinColumn(name = "authority_id"))
+     private List<AuthorityEntity> authorities;
 
-  @OneToOne(mappedBy = "userProfile")
-  private MusicianEntity musician;
 
-  @OneToOne(mappedBy = "userProfile")
-  private NonmusicianEntity nonmusician;
+     @ManyToOne
+     @JoinColumn(name = "postal_code")
+     private CityEntity city;
+
+     public UserEntity(String username, String password, String firstName, String lastName, String userType,
+         LocalDate dateOfBirth,
+         List<AuthorityEntity> authorities, CityEntity city) {
+          this.username = username;
+          this.password = password;
+          this.firstName = firstName;
+          this.userType = userType;
+          this.lastName = lastName;
+          this.dateOfBirth = dateOfBirth;
+          this.authorities = authorities;
+          this.city = city;
+     }
+
 }

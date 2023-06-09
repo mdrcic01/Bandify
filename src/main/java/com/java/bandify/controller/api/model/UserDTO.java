@@ -8,10 +8,10 @@ import lombok.Data;
 @Builder
 public class UserDTO {
 
-  private String firstName;
-  private String lastName;
-  private LocalDateTime dateOfBirth;
-  private Integer townPostalCode;
-  private String username;
-  private String password;
+     private String firstName;
+     private String lastName;
+     private LocalDateTime dateOfBirth;
+     private Integer townPostalCode;
+     private String username;
+     private String password;
 }

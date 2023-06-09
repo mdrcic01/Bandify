@@ -11,6 +11,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -26,41 +27,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BandEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "band_id")
-  private Integer id;
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "band_id")
+     private Integer id;
 
-  @Column(name = "band_name", length = 64, nullable = false)
-  private String bandName;
+     @Column(name = "band_name", length = 64, nullable = false)
+     private String bandName;
 
-  @Column(name = "price")
-  private Integer price;
+     @Column(name = "price")
+     private Integer price;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "currency_id")
-  private CurrencyEntity currency;
+     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     @JoinColumn(name = "currency_id")
+     private CurrencyEntity currency;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "genre_id")
-  private GenreEntity genre;
+     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     @JoinColumn(name = "genre_id")
+     private GenreEntity genre;
 
-  @OneToMany(mappedBy = "band")
-  private List<MusicianEntity> musicians;
+     @OneToMany(mappedBy = "band", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     private List<MusicianEntity> musicians;
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(
-      name = "band_instrument",
-      joinColumns = { @JoinColumn(name = "band_id") },
-      inverseJoinColumns = { @JoinColumn(name = "instrument_id")}
-  )
-  private List<InstrumentEntity> instruments;
+     @OneToOne
+     @JoinColumn(name = "created_by")
+     private UserEntity createdBy;
 
-  public Integer getGenreId() {
-    return genre != null ? genre.getId() : null;
-  }
-
-  public Integer getCurrencyId() {
-    return currency != null ? currency.getId() : null;
-  }
+     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+     @JoinTable(
+         name = "band_instrument",
+         joinColumns = {@JoinColumn(name = "band_id")},
+         inverseJoinColumns = {@JoinColumn(name = "instrument_id")}
+     )
+     private List<InstrumentEntity> instruments;
 }

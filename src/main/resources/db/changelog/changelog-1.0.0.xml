@@ -61,6 +61,9 @@
       <column name="last_name" type="varchar(64)">
         <constraints nullable="false"/>
       </column>
+      <column name="user_type" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
       <column name="postal_code" type="int">
         <constraints nullable="false" foreignKeyName="fk_user_city" references="city(postal_code)"/>
       </column>
@@ -133,6 +136,9 @@
       <column name="price" type="int">
         <constraints nullable="true"/>
       </column>
+      <column name="created_by" type="int">
+        <constraints nullable="true" foreignKeyName="fk_band_createdby" references="user(user_id)"/>
+      </column>
       <column name="currency_id" type="int">
         <constraints nullable="true" foreignKeyName="fk_band_currency" references="currency(currency_id)"/>
       </column>
@@ -151,25 +157,465 @@
     </createTable>
 
     <createTable tableName="musician">
-      <column name="musician_id" type="int" autoIncrement="true">
+      <column name="id" type="int" autoIncrement="true">
         <constraints primaryKey="true" nullable="false"/>
-      </column>
-      <column name="user_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_musician_userprofile" references="user(user_id)"/>
       </column>
       <column name="band_id" type="int">
         <constraints nullable="true" foreignKeyName="fk_musician_band" references="band(band_id)"/>
       </column>
     </createTable>
+    
+    <createTable tableName="application">
+		<column name="application_id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="applied_on" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="status" type="varchar(64)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="musician_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_my_application_musician" references="user(user_id)"/>
+      </column>
+     <column name="band_id" type="int">
+        <constraints nullable="true" foreignKeyName="fk_my_application_band" references="band(band_id)"/>
+      </column>
+    </createTable>
 
     <createTable tableName="musician_instrument">
       <column name="musician_id" type="int">
-        <constraints nullable="false" foreignKeyName="fk_musician" references="musician(musician_id)"/>
+        <constraints nullable="false" foreignKeyName="fk_musician" references="user(user_id)"/>
       </column>
       <column name="instrument_id" type="int">
         <constraints nullable="false" foreignKeyName="fk_instrument" references="instrument(instrument_id)"/>
       </column>
     </createTable>
-
+    
+    <insert tableName="authority">
+        <column name="id" value="1"/>
+        <column name="name" value="ROLE_USER"/>
+    </insert>
+    
+    <insert tableName="genre">
+        <column name="genre_id" value="1"/>
+        <column name="genre_name" value="Rock"/>
+    </insert>
+	<insert tableName="genre">
+        <column name="genre_id" value="2"/>
+        <column name="genre_name" value="Pop"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="3"/>
+        <column name="genre_name" value="Jazz"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="4"/>
+        <column name="genre_name" value="Blues"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="5"/>
+        <column name="genre_name" value="Hip Hop"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="6"/>
+        <column name="genre_name" value="Country music"/>
+    </insert>
+	<insert tableName="genre">
+        <column name="genre_id" value="7"/>
+        <column name="genre_name" value="Classical music"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="8"/>
+        <column name="genre_name" value="Folk music"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="9"/>
+        <column name="genre_name" value="Disco"/>
+    </insert>
+    <insert tableName="genre">
+        <column name="genre_id" value="10"/>
+        <column name="genre_name" value="Rapping"/>
+    </insert>
+    
+    
+    
+    
+    
+    
+    <insert tableName="currency">
+        <column name="currency_id" value="1"/>
+        <column name="currency_code" value="HRK"/>
+    </insert>
+    <insert tableName="currency">
+        <column name="currency_id" value="2"/>
+        <column name="currency_code" value="USD"/>
+    </insert>
+    <insert tableName="currency">
+        <column name="currency_id" value="3"/>
+        <column name="currency_code" value="AUD"/>
+    </insert>
+    <insert tableName="currency">
+        <column name="currency_id" value="4"/>
+        <column name="currency_code" value="EUR"/>
+    </insert>
+    <insert tableName="currency">
+        <column name="currency_id" value="5"/>
+        <column name="currency_code" value="BSD"/>
+    </insert>
+    <insert tableName="currency">
+        <column name="currency_id" value="6"/>
+        <column name="currency_code" value="CAD"/>
+    </insert>
+    
+    
+    
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="1"/>
+        <column name="instrument_name" value="Piano"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="2"/>
+        <column name="instrument_name" value="Guitar"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="3"/>
+        <column name="instrument_name" value="Violin"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="4"/>
+        <column name="instrument_name" value="Flute"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="5"/>
+        <column name="instrument_name" value="Harp"/>
+    </insert>
+    <insert tableName="instrument">
+        <column name="instrument_id" value="6"/>
+        <column name="instrument_name" value="Accordion"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="7"/>
+        <column name="instrument_name" value="Drums"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="8"/>
+        <column name="instrument_name" value="Sitar"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="9"/>
+        <column name="instrument_name" value="Trumpet"/>
+    </insert>
+    
+    <insert tableName="instrument">
+        <column name="instrument_id" value="10"/>
+        <column name="instrument_name" value="Tambourine"/>
+    </insert>
+    
+    
+    
+    
+    <insert tableName="country">
+        <column name="country_id" value="1"/>
+        <column name="country_name" value="Germany"/>
+    </insert>
+    
+    <insert tableName="country">
+        <column name="country_id" value="2"/>
+        <column name="country_name" value="Italy"/>
+    </insert>
+    
+     <insert tableName="country">
+        <column name="country_id" value="3"/>
+        <column name="country_name" value="United Kingdom"/>
+    </insert>
+    
+     <insert tableName="country">
+        <column name="country_id" value="4"/>
+        <column name="country_name" value="France"/>
+    </insert>
+    
+    
+    
+    <insert tableName="state">
+        <column name="state_id" value="1"/>
+        <column name="state_name" value="Bavaria"/>
+        <column name="country_id" value="1"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="2"/>
+        <column name="state_name" value="Bremen"/>
+        <column name="country_id" value="1"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="3"/>
+        <column name="state_name" value="Hamburg"/>
+        <column name="country_id" value="1"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="4"/>
+        <column name="state_name" value="Hesse"/>
+        <column name="country_id" value="1"/>
+    </insert>
+    
+     <insert tableName="state">
+        <column name="state_id" value="5"/>
+        <column name="state_name" value="Papal States"/>
+        <column name="country_id" value="2"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="6"/>
+        <column name="state_name" value="Republic of Venice"/>
+        <column name="country_id" value="2"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="7"/>
+        <column name="state_name" value="Republic of Florence"/>
+        <column name="country_id" value="2"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="8"/>
+        <column name="state_name" value="Kingdom of Naples"/>
+        <column name="country_id" value="2"/>
+    </insert>
+    
+    <insert tableName="state">
+        <column name="state_id" value="9"/>
+        <column name="state_name" value="London"/>
+        <column name="country_id" value="3"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="10"/>
+        <column name="state_name" value="Yorkshire"/>
+        <column name="country_id" value="3"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="11"/>
+        <column name="state_name" value="East of England"/>
+        <column name="country_id" value="3"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="12"/>
+        <column name="state_name" value="West Midlands"/>
+        <column name="country_id" value="3"/>
+    </insert>
+    
+    <insert tableName="state">
+        <column name="state_id" value="13"/>
+        <column name="state_name" value="Brittany"/>
+        <column name="country_id" value="4"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="14"/>
+        <column name="state_name" value="Corsica"/>
+        <column name="country_id" value="4"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="15"/>
+        <column name="state_name" value="Paris Region"/>
+        <column name="country_id" value="4"/>
+    </insert>
+    <insert tableName="state">
+        <column name="state_id" value="16"/>
+        <column name="state_name" value="Grand Est"/>
+        <column name="country_id" value="4"/>
+    </insert>
+    
+    
+    
+    
+    
+    <insert tableName="city">
+        <column name="postal_code" value="63739"/>
+        <column name="city_name" value="Aschaffenburg"/>
+        <column name="state_id" value="1"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="82032"/>
+        <column name="city_name" value="Munich"/>
+        <column name="state_id" value="1"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="84034"/>
+        <column name="city_name" value="Landshut"/>
+        <column name="state_id" value="1"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="09669"/>
+        <column name="city_name" value="Saxony"/>
+        <column name="state_id" value="2"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="17326"/>
+        <column name="city_name" value="Brandenburg"/>
+        <column name="state_id" value="2"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="14532"/>
+        <column name="city_name" value="Berlin"/>
+        <column name="state_id" value="2"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="20038"/>
+        <column name="city_name" value="Hamburg"/>
+        <column name="state_id" value="3"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="34134"/>
+        <column name="city_name" value="Kassel"/>
+        <column name="state_id" value="4"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="35043"/>
+        <column name="city_name" value="Marburg"/>
+        <column name="state_id" value="4"/>
+    </insert>
+    
+    
+    <insert tableName="city">
+        <column name="postal_code" value="00199"/>
+        <column name="city_name" value="Rome"/>
+        <column name="state_id" value="5"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="00118"/>
+        <column name="city_name" value="Venice"/>
+        <column name="state_id" value="5"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="39100"/>
+        <column name="city_name" value="Bolzano"/>
+        <column name="state_id" value="6"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="39012"/>
+        <column name="city_name" value="Merano"/>
+        <column name="state_id" value="6"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="07026"/>
+        <column name="city_name" value="Olbia"/>
+        <column name="state_id" value="7"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="07100"/>
+        <column name="city_name" value="Sassari"/>
+        <column name="state_id" value="7"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="61100"/>
+        <column name="city_name" value="Pesaro"/>
+        <column name="state_id" value="8"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="55100"/>
+        <column name="city_name" value="Lucca"/>
+        <column name="state_id" value="8"/>
+    </insert>
+    
+    
+    
+     <insert tableName="city">
+        <column name="postal_code" value="46456"/>
+        <column name="city_name" value="Portsoken"/>
+        <column name="state_id" value="9"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="34545"/>
+        <column name="city_name" value="Bishopsgate"/>
+        <column name="state_id" value="9"/>
+    </insert>
+    
+    
+     <insert tableName="city">
+        <column name="postal_code" value="78543"/>
+        <column name="city_name" value="Abberton"/>
+        <column name="state_id" value="10"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="45665"/>
+        <column name="city_name" value="Abbas Combe"/>
+        <column name="state_id" value="10"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="34343"/>
+        <column name="city_name" value="Ampfield"/>
+        <column name="state_id" value="11"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="23233"/>
+        <column name="city_name" value="Ampleforth"/>
+        <column name="state_id" value="11"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="56466"/>
+        <column name="city_name" value="Ampney St Peter"/>
+        <column name="state_id" value="12"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="34324"/>
+        <column name="city_name" value="Ampthill"/>
+        <column name="state_id" value="12"/>
+    </insert>
+    
+    
+    <insert tableName="city">
+        <column name="postal_code" value="02939"/>
+        <column name="city_name" value="Picardy"/>
+        <column name="state_id" value="13"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="87950"/>
+        <column name="city_name" value="Limousin"/>
+        <column name="state_id" value="13"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="45656"/>
+        <column name="city_name" value="Ampthill"/>
+        <column name="state_id" value="14"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="45453"/>
+        <column name="city_name" value="Ampthill"/>
+        <column name="state_id" value="14"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="20900"/>
+        <column name="city_name" value="Corsica"/>
+        <column name="state_id" value="15"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="57000"/>
+        <column name="city_name" value="Lorraine"/>
+        <column name="state_id" value="15"/>
+    </insert>
+    
+    <insert tableName="city">
+        <column name="postal_code" value="68990"/>
+        <column name="city_name" value="Alsace"/>
+        <column name="state_id" value="16"/>
+    </insert>
+    <insert tableName="city">
+        <column name="postal_code" value="76980"/>
+        <column name="city_name" value="Upper Normandy"/>
+        <column name="state_id" value="16"/>
+    </insert>
+    
   </changeSet>
 </databaseChangeLog>

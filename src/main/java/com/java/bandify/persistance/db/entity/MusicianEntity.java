@@ -1,63 +1,55 @@
 package com.java.bandify.persistance.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import java.time.LocalDate;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity(name = "musician")
-@Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class MusicianEntity {
+public class MusicianEntity extends UserEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "musician_id")
-  private Integer id;
+     @ManyToOne
+     @JoinColumn(name = "band_id")
+     @JsonIgnore
+     private BandEntity band;
 
-  @OneToOne
-  @JoinColumn(name = "user_id", nullable = false)
-  private UserEntity userProfile;
+     @ManyToMany(cascade = CascadeType.ALL)
+     @JoinTable(name = "musician_instrument", joinColumns = {@JoinColumn(name = "musician_id")}, inverseJoinColumns = {
+         @JoinColumn(name = "instrument_id")})
+     private List<InstrumentEntity> instruments;
 
-  @ManyToOne
-  @JoinColumn(name = "band_id")
-  private BandEntity band;
+     public MusicianEntity(String username, String password, String firstName, String lastName, String userType,
+         LocalDate dateOfBirth, List<AuthorityEntity> authorities, CityEntity city, BandEntity band,
+         List<InstrumentEntity> instruments) {
+          super(username, password, firstName, lastName, userType, dateOfBirth, authorities, city);
+          this.band = band;
+          this.instruments = instruments;
+     }
 
-  @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(
-      name = "musician_instrument",
-      joinColumns = { @JoinColumn(name = "musician_id")},
-      inverseJoinColumns = { @JoinColumn(name = "instrument_id")}
-  )
-  private List<InstrumentEntity> instruments;
+     public MusicianEntity() {
+          super();
+     }
 
-  public Integer getUserProfileId() {
-    if(userProfile == null) {
-      return null;
-    }
-    return userProfile.getId();
-  }
+     public BandEntity getBand() {
+          return band;
+     }
 
-  public Integer getBandId() {
-    if(band == null) {
-      return null;
-    }
+     public void setBand(BandEntity band) {
+          this.band = band;
+     }
 
-    return band.getId();
-  }
+     public List<InstrumentEntity> getInstruments() {
+          return instruments;
+     }
+
+     public void setInstruments(List<InstrumentEntity> instruments) {
+          this.instruments = instruments;
+     }
+
+
 }

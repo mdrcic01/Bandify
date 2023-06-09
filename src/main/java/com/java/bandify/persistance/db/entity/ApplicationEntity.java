@@ -1,34 +1,40 @@
 package com.java.bandify.persistance.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import java.util.List;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+@Entity(name = "application")
 @Data
 @Builder
-@Entity
-@Table(name = "authority")
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class AuthorityEntity {
+public class ApplicationEntity {
 
      @Id
      @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "application_id")
      private Integer id;
-     @Column(name = "name", nullable = false)
-     private String name;
 
-     @ManyToMany(mappedBy = "authorities")
-     @JsonIgnore
-     private List<UserEntity> users;
+     @OneToOne
+     @JoinColumn(name = "band_id")
+     private BandEntity band;
+
+     @OneToOne
+     @JoinColumn(name = "musician_id")
+     private UserEntity musician;
+
+     private String status;
+
+     @Column(name = "applied_on")
+     private LocalDateTime appliedOn;
 }

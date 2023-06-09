@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BandRepository extends JpaRepository<BandEntity, Integer> {
 
-}
+     BandEntity findByCreatedById(Integer id);
+}	

@@ -1,9 +1,9 @@
 package com.java.bandify.persistance.db.repository;
 
-import com.java.bandify.persistance.db.entity.BandEntity;
 import com.java.bandify.persistance.db.entity.NonmusicianEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.transaction.Transactional;
 
-public interface NonmusicianRepository extends JpaRepository<NonmusicianEntity, Integer> {
+@Transactional
+public interface NonmusicianRepository extends UserBaseRepository<NonmusicianEntity> {
 
 }

@@ -7,11 +7,14 @@ import lombok.Data;
 @Data
 @Builder
 public class InstrumentDTO {
-  private String instrumentName;
 
-  public static InstrumentDTO from(InstrumentEntity instrumentEntity) {
-    return InstrumentDTO.builder()
-        .instrumentName(instrumentEntity.getName())
-        .build();
-  }
+     private Integer id;
+     private String instrumentName;
+
+     public static InstrumentDTO from(InstrumentEntity instrumentEntity) {
+          return InstrumentDTO.builder()
+              .id(instrumentEntity.getId())
+              .instrumentName(instrumentEntity.getName())
+              .build();
+     }
 }

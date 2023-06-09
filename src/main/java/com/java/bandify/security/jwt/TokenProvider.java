@@ -8,8 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,9 +23,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class TokenProvider {
-    private final Logger log = LoggerFactory.getLogger(com.java.bandify.security.jwt.TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -45,17 +44,16 @@ public class TokenProvider {
         byte[] keyBytes;
         keyBytes = Decoders.BASE64.decode(base64Secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
-        this.tokenValidityInMilliseconds = 1000 * tokenValiditySeconds;
+        this.tokenValidityInMilliseconds = 1000L * tokenValiditySeconds;
     }
 
     public String createToken(Authentication authentication) {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(
             Collectors.joining(","));
 
-        long now = (new Date()).getTime();
         Date validity;
-        validity = new Date(now + this.tokenValidityInMilliseconds);
-
+        validity = new Date((new Date()).getTime() + tokenValiditySeconds);
+        
         return Jwts
             .builder()
             .setSubject(authentication.getName())
@@ -73,11 +71,11 @@ public class TokenProvider {
         if (claims.get(AUTHORITIES_KEY) != null && !claims.get(AUTHORITIES_KEY).toString().isEmpty()) {
             authorities = Arrays
                 .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .filter(authority -> !authority.trim().isEmpty()) // additional check for empty authorities
+                .filter(authority -> !authority.trim().isEmpty())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
         } else {
-            authorities = new ArrayList<>(); // empty list of authorities
+            authorities = new ArrayList<>();
         }
 
         User principal = new User(claims.getSubject(), "", authorities);

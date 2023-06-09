@@ -1,40 +1,26 @@
 package com.java.bandify.persistance.db.entity;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "nonmusician")
-@Data
-@Builder
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class NonmusicianEntity {
+public class NonmusicianEntity extends UserEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "nonmusician_id")
-  private Integer id;
+     private String bio;
 
-  @OneToOne
-  @JoinColumn(name = "user_id")
-  private UserEntity userProfile;
+     public NonmusicianEntity(String username, String password, String firstName, String lastName, String userType,
+         LocalDate dateOfBirth, List<AuthorityEntity> authorities, CityEntity city, String bio) {
+          super(username, password, firstName, lastName, userType, dateOfBirth, authorities, city);
+          this.bio = bio;
+     }
 
-  public Integer getUserProfileId() {
-    if(userProfile == null) {
-      return null;
-    }
+     public NonmusicianEntity() {
+          super();
+     }
 
-    return userProfile.getId();
-  }
+     public void setBio(String bio) {
+          this.bio = bio;
+     }
+
 }

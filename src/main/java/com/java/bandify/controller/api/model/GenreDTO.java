@@ -7,11 +7,12 @@ import lombok.Data;
 @Data
 @Builder
 public class GenreDTO {
-  private String genre;
 
-  public static GenreDTO from(GenreEntity genreEntity) {
-    return GenreDTO.builder()
-        .genre(genreEntity.getGenre())
-        .build();
-  }
+     private String genre;
+
+     public static GenreDTO from(GenreEntity genreEntity) {
+          return GenreDTO.builder()
+              .genre(genreEntity.getGenre())
+              .build();
+     }
 }

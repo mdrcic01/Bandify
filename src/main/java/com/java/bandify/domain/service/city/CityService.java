@@ -15,48 +15,50 @@ import org.springframework.stereotype.Service;
 @Service
 public class CityService {
 
-  @Autowired
-  private CityRepository cityRepository;
-  @Autowired
-  private StateService stateService;
+     @Autowired
+     private CityRepository cityRepository;
+     @Autowired
+     private StateService stateService;
 
-  public CityDTO getCity(Integer cityId) throws NoSuchElementException {
-    Optional<CityEntity> city = cityRepository.findById(cityId);
+     public CityDTO getCity(Integer cityId) throws NoSuchElementException {
+          Optional<CityEntity> city = cityRepository.findById(cityId);
 
-    if(city.isEmpty())
-      throw new NoSuchElementException("There is no cities under id " + cityId);
+          if (city.isEmpty()) {
+               throw new NoSuchElementException("There is no cities under id " + cityId);
+          }
 
-    return CityDTO.from(city.get());
-  }
+          return CityDTO.from(city.get());
+     }
 
-  public List<CityDTO> getAllCities() throws NoSuchElementException {
-    List<CityEntity> cities = cityRepository.findAll();
+     public List<CityDTO> getCitiesByState(Integer stateId) throws NoSuchElementException {
+          List<CityEntity> cities = cityRepository.findAllByStateId(stateId);
 
-    if(cities.isEmpty())
-      throw new NoSuchElementException("No cities are available");
+          if (cities.isEmpty()) {
+               throw new NoSuchElementException("No cities are available");
+          }
 
-    return cities.stream().map(CityDTO::from).collect(Collectors.toList());
-  }
+          return cities.stream().map(CityDTO::from).collect(Collectors.toList());
+     }
 
-  public void importCities(List<CityImportDTO> cities) {
-    for (CityImportDTO city : cities) {
-      cityRepository.save(
-          CityEntity.builder()
-              .postalCode(city.getId())
-              .name(city.getName())
-              .state(stateService.fetchStateById(city.getState_id()))
-              .build()
-      );
-    }
-  }
+     public List<CityDTO> getAllCities() throws NoSuchElementException {
+          List<CityEntity> cities = cityRepository.findAll();
 
-  public CityEntity fetchCityEntityIfExistOrThrow(Integer townId) {
-    Optional<CityEntity> city = cityRepository.findById(townId);
+          if (cities.isEmpty()) {
+               throw new NoSuchElementException("No cities are available");
+          }
 
-    if(city.isEmpty()) {
-      throw new NoSuchElementException(String.format("City with id %d doesn't exist", townId));
-    }
+          return cities.stream().map(CityDTO::from).collect(Collectors.toList());
+     }
 
-    return city.get();
-  }
+     public void importCities(List<CityImportDTO> cities) {
+          for (CityImportDTO city : cities) {
+               cityRepository.save(
+                   CityEntity.builder()
+                       .postalCode(city.getId())
+                       .name(city.getName())
+                       .state(stateService.fetchStateById(city.getState_id()))
+                       .build()
+               );
+          }
+     }
 }

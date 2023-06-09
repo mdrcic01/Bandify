@@ -12,11 +12,14 @@ import com.java.bandify.controller.api.model.BandDTO;
 import com.java.bandify.persistance.db.entity.BandEntity;
 import com.java.bandify.persistance.db.entity.CurrencyEntity;
 import com.java.bandify.persistance.db.entity.GenreEntity;
+import com.java.bandify.persistance.db.entity.UserEntity;
 import com.java.bandify.persistance.db.repository.BandRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -51,9 +54,9 @@ public class BandServiceTest {
     when(bandRepository.findAll()).thenReturn(buildBandEntityList());
 
     //ACTION
-    List<BandDTO> bands = bandService.getAllBands();
-
-    assertThat(bands).isEqualTo(buildBandDTOList());
+    List<BandEntity> bands = bandService.getAllBands();
+    
+    assertThat(bands.stream().map(BandDTO::from).collect(Collectors.toList())).isEqualTo(buildBandDTOList());
   }
 
   @Test
@@ -70,10 +73,10 @@ public class BandServiceTest {
     when(bandRepository.findById(anyInt())).thenReturn(Optional.of(bandEntity));
 
     //ACTION
-    BandDTO bandDTO = bandService.getBand(1);
+    BandEntity bandDTO = bandService.getBand(1);
 
     assertThat(bandDTO.getBandName()).isEqualTo(bandEntity.getBandName());
-    assertThat(bandDTO.getCurrency()).isEqualTo(bandEntity.getCurrency().getId());
+    assertThat(bandDTO.getCurrency().getId()).isEqualTo(bandEntity.getCurrency().getId());
   }
 
   @Test
@@ -119,8 +122,9 @@ public class BandServiceTest {
   private BandDTO buildBandDTO(String name, Integer price) {
     return BandDTO.builder()
         .bandName(name)
-        .genre(1)
-        .currency(1)
+        .genre("Genre")
+        .currency("CUR")
+        .userId(1)
         .price(price)
         .build();
   }
@@ -131,6 +135,7 @@ public class BandServiceTest {
         .bandName(name)
         .genre(buildGenre())
         .currency(buildCurrency())
+        .createdBy( buildUser())
         .price(price)
         .build();
   }
@@ -141,6 +146,12 @@ public class BandServiceTest {
         .genre("Genre")
         .build();
   }
+  
+  private UserEntity buildUser() {
+	    return UserEntity.builder()
+	        .id(1)
+	        .build();
+	  }
 
   private CurrencyEntity buildCurrency() {
     return CurrencyEntity.builder()

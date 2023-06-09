@@ -1,6 +1,6 @@
 package com.java.bandify.persistance.db.entity;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,6 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Entity(name = "currency")
@@ -21,14 +20,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CurrencyEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "currency_id")
-  private Integer id;
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "currency_id")
+     private Integer id;
 
-  @Column(name = "currency_code")
-  private String code;
+     @Column(name = "currency_code")
+     private String code;
 
-  @OneToMany(mappedBy = "currency")
-  private List<BandEntity> bands;
+     @OneToMany(mappedBy = "currency")
+     @JsonIgnore
+     private List<BandEntity> bands;
 }

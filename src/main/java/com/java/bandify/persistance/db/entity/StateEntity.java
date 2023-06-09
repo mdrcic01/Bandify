@@ -1,5 +1,6 @@
 package com.java.bandify.persistance.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,18 +22,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StateEntity {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "state_id")
-  private Integer id;
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     @Column(name = "state_id")
+     private Integer id;
 
-  @Column(name = "state_name", length = 64, nullable = false)
-  private String name;
+     @Column(name = "state_name", length = 64, nullable = false)
+     private String name;
 
-  @ManyToOne
-  @JoinColumn(name = "country_id", nullable = false)
-  private CountryEntity country;
+     @ManyToOne
+     @JoinColumn(name = "country_id", nullable = false)
+     private CountryEntity country;
 
-  @OneToMany(mappedBy = "state")
-  private List<CityEntity> towns;
+     @OneToMany(mappedBy = "state")
+     @JsonIgnore
+     private List<CityEntity> towns;
 }

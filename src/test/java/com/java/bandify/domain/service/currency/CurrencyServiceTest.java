@@ -30,7 +30,7 @@ public class CurrencyServiceTest {
 
 
   @Test
-  public void getCounty_should_returnCountyDTO_when_requestedCountyExist() {
+  public void getCurrency_should_returnCurrencyDTO_when_requestedCurrencyExist() {
     CurrencyEntity currency = buildCurrencyEntity(1, "County");
     when(currencyRepository.findById(anyInt())).thenReturn(Optional.of(currency));
 
@@ -41,7 +41,7 @@ public class CurrencyServiceTest {
   }
 
   @Test
-  public void getCounty_should_throwException_when_requestedCountyDoesNotExist() {
+  public void getCurrency_should_throwException_when_requestedCurrencyDoesNotExist() {
     when(currencyRepository.findById(anyInt())).thenReturn(Optional.empty());
 
     //ACTION
@@ -49,7 +49,7 @@ public class CurrencyServiceTest {
   }
 
   @Test
-  public void getAllCounties_should_returnPopulatedList_when_anyCountiesAreAvailable() {
+  public void getAllCurrencies_should_returnPopulatedList_when_anyCurrenciesAreAvailable() {
     List<CurrencyEntity> currencyEntities = buildCurrencyEntityList();
     when(currencyRepository.findAll()).thenReturn(currencyEntities);
 
@@ -64,7 +64,7 @@ public class CurrencyServiceTest {
   }
 
   @Test
-  public void getAllCounties_should_throwException_when_noCountiesAreAvailable() {
+  public void getAllCurrencies_should_throwException_when_noCurrenciesAreAvailable() {
     when(currencyRepository.findAll()).thenReturn(Collections.emptyList());
 
     //ACTION

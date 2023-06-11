@@ -38,14 +38,14 @@ public class ApplicationController {
 
      @GetMapping("/{bandId}")
      public ResponseEntity<List<ApplicationEntity>> getAllApplicationStatus(@PathVariable Integer bandId) {
-          List<ApplicationEntity> applicationEntities = applicationService.getAllApplicationStatus(bandId);
+          List<ApplicationEntity> applicationEntities = applicationService.getAllApplicationStatusesByBandId(bandId);
           return ResponseEntity.status(HttpStatus.OK).body(applicationEntities);
      }
 
      @GetMapping("/musician/{musicianId}")
      public ResponseEntity<List<ApplicationEntity>> getAllApplicationStatusByMusician(
          @PathVariable Integer musicianId) {
-          List<ApplicationEntity> applicationEntities = applicationService.getAllApplicationStatusByMusician(
+          List<ApplicationEntity> applicationEntities = applicationService.getAllApplicationStatusesByMusician(
               musicianId);
           return ResponseEntity.status(HttpStatus.OK).body(applicationEntities);
      }

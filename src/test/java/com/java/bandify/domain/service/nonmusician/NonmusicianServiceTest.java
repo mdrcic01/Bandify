@@ -36,8 +36,6 @@ public class NonmusicianServiceTest {
   private NonmusicianService nonmusicianService;
   @Mock
   private NonmusicianRepository nonmusicianRepository;
-  @Captor
-  private ArgumentCaptor<NonmusicianEntity> nonmusicianEntityArgumentCaptor;
 
 
   @Test
@@ -82,38 +80,6 @@ public class NonmusicianServiceTest {
 
     //ACTION
     assertThrows(NoSuchElementException.class, () -> nonmusicianService.getAllNonmusicians());
-  }
-
-//  @Test
-//  public void addOrEditNonmusician_should_addNewNonmusician_when_givenIdIsNull() {
-//    NonmusicianDTO nonmusicianDTO = buildNonmusicianDTO();
-//    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1,"ttest", "ttest"));
-//    when(nonmusicianRepository.save(nonmusicianEntityArgumentCaptor.capture())).thenReturn(nonmusicianEntity);
-//
-//    //ACTION
-//    NonmusicianEntity nonmusician = nonmusicianService.addOrEditNonmusician(nonmusicianDTO, null);
-//
-//    verify(nonmusicianRepository, times(1)).save(nonmusicianEntityArgumentCaptor.capture());
-//    assertThat(nonmusician).isEqualTo(nonmusicianEntity);
-//  }
-
-//  @Test
-//  public void addOrEditNonmusician_should_editExistingNonmusician_when_givenIdIsNotNull() {
-//    NonmusicianDTO nonmusicianDTO = buildNonmusicianDTO();
-//    NonmusicianEntity nonmusicianEntity = buildNonmusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "tt"));
-//    when(nonmusicianRepository.save(nonmusicianEntityArgumentCaptor.capture())).thenReturn(nonmusicianEntity);
-//
-//    //ACTION
-//    NonmusicianEntity nonmusician = nonmusicianService.addOrEditNonmusician(nonmusicianDTO, 1);
-//
-//    verify(nonmusicianRepository, times(1)).save(nonmusicianEntityArgumentCaptor.capture());
-//    assertThat(nonmusician).isEqualTo(nonmusicianEntity);
-//  }
-
-  private NonmusicianDTO buildNonmusicianDTO() {
-    return NonmusicianDTO.builder()
-        .userId(1)
-        .build();
   }
 
   private List<UserEntity> buildNonmusicianEntityList() {

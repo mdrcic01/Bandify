@@ -31,8 +31,15 @@ public class ApplicationService {
           Optional<BandEntity> bandOptional = bandRepository.findById(bandId);
           Optional<UserEntity> userOptional = musicianRepo.findById(musicianId);
           if (isBandPresentAndUserMusician(bandOptional, userOptional, musicianId)) {
-               applicationRepository.save(
-                   new ApplicationEntity(null, bandOptional.get(), userOptional.get(), "pending", LocalDateTime.now()));
+               return applicationRepository.save(
+                   ApplicationEntity.builder()
+                       .id(null)
+                       .band(bandOptional.get())
+                       .musician(userOptional.get())
+                       .status("pending")
+                       .appliedOn(LocalDateTime.now())
+                       .build()
+               );
           }
           return null;
      }
@@ -41,8 +48,7 @@ public class ApplicationService {
           Optional<BandEntity> bandOptional = bandRepository.findById(bandId);
           Optional<UserEntity> userOptional = musicianRepo.findById(musicianId);
           ApplicationEntity applicationEntity = applicationRepository.findByBandIdAndMusicianId(bandId, musicianId);
-          if (isBandPresentIsUserMusicianAndIsApplicationNull(bandOptional, userOptional, musicianId,
-              applicationEntity)) {
+          if (isBandPresentIsUserMusicianAndIsApplicationNull(bandOptional, userOptional, musicianId, applicationEntity)) {
 
                if (status.equals("approved")) {
 
@@ -63,7 +69,7 @@ public class ApplicationService {
           return null;
      }
 
-     public List<ApplicationEntity> getAllApplicationStatus(Integer bandId) {
+     public List<ApplicationEntity> getAllApplicationStatusesByBandId(Integer bandId) {
           Optional<BandEntity> bandOptional = bandRepository.findById(bandId);
           if (bandOptional.isEmpty()) {
                throw new NoSuchElementException("Band not found");
@@ -71,12 +77,11 @@ public class ApplicationService {
           return applicationRepository.findAllByBandIdAndStatus(bandId, "pending");
      }
 
-     public List<ApplicationEntity> getAllApplicationStatusByMusician(Integer musicianId) {
+     public List<ApplicationEntity> getAllApplicationStatusesByMusician(Integer musicianId) {
           return applicationRepository.findAllByMusicianId(musicianId);
      }
 
-     private boolean isBandPresentAndUserMusician(Optional<BandEntity> band, Optional<UserEntity> user,
-         Integer musicianId) {
+     private boolean isBandPresentAndUserMusician(Optional<BandEntity> band, Optional<UserEntity> user, Integer musicianId) {
           return band.isPresent() && user.isPresent() &&
               user.get().getUserType().equals("musician") &&
               !Objects.equals(band.get().getCreatedBy().getId(), musicianId);

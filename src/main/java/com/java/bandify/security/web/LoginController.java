@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -236,6 +237,7 @@ public class LoginController {
           }
      }
 
+     @Data
      static class LoginDTO {
 
           @NotNull
@@ -243,24 +245,9 @@ public class LoginController {
 
           @NotNull
           private String password;
-
-          public String getUsername() {
-               return username;
-          }
-
-          public void setUsername(String username) {
-               this.username = username;
-          }
-
-          public String getPassword() {
-               return password;
-          }
-
-          public void setPassword(String password) {
-               this.password = password;
-          }
      }
 
+     @Data
      static class SignUpDTO {
 
           @NotNull
@@ -296,102 +283,5 @@ public class LoginController {
           private List<String> instruments;
 
           private String intrests;
-
-          public String getUsername() {
-               return username;
-          }
-
-          public void setUsername(String username) {
-               this.username = username;
-          }
-
-          public String getPassword() {
-               return password;
-          }
-
-          public void setPassword(String password) {
-               this.password = password;
-          }
-
-          public String getFirstName() {
-               return firstName;
-          }
-
-          public void setFirstName(String firstName) {
-               this.firstName = firstName;
-          }
-
-          public String getLastname() {
-               return lastname;
-          }
-
-          public void setLastname(String lastname) {
-               this.lastname = lastname;
-          }
-
-          public LocalDate getDateOfBirth() {
-               return dateOfBirth;
-          }
-
-          public void setDateOfBirth(LocalDate dateOfBirth) {
-               this.dateOfBirth = dateOfBirth;
-          }
-
-          public Integer getCountry() {
-               return country;
-          }
-
-          public void setCountry(Integer country) {
-               this.country = country;
-          }
-
-          public Integer getState() {
-               return state;
-          }
-
-          public void setState(Integer state) {
-               this.state = state;
-          }
-
-          public Integer getCity() {
-               return city;
-          }
-
-          public void setCity(Integer city) {
-               this.city = city;
-          }
-
-          public String getIntrests() {
-               return intrests;
-          }
-
-          public void setIntrests(String intrests) {
-               this.intrests = intrests;
-          }
-
-          public List<String> getAuthorities() {
-               return authorities;
-          }
-
-          public void setAuthorities(List<String> authorities) {
-               this.authorities = authorities;
-          }
-
-          public List<String> getInstruments() {
-               return instruments;
-          }
-
-          public void setInstruments(List<String> instruments) {
-               this.instruments = instruments;
-          }
-
-          public String getRole() {
-               return role;
-          }
-
-          public void setRole(String role) {
-               this.role = role;
-          }
-
      }
 }

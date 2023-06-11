@@ -30,7 +30,7 @@ public class CityServiceTest {
   private CityRepository cityRepository;
 
   @Test
-  public void getTown_should_returnTownDTO_when_requestedTownExist() {
+  public void getCity_should_returnCityDTO_when_requestedCityExist() {
     CityEntity town = buildCityEntity(1, "Town");
     when(cityRepository.findById(anyInt())).thenReturn(Optional.of(town));
 
@@ -42,7 +42,7 @@ public class CityServiceTest {
   }
 
   @Test
-  public void getTown_should_throwException_when_requestedTownDoesNotExist() {
+  public void getCity_should_throwException_when_requestedCityDoesNotExist() {
     when(cityRepository.findById(anyInt())).thenReturn(Optional.empty());
 
     //ACTION
@@ -50,7 +50,7 @@ public class CityServiceTest {
   }
 
   @Test
-  public void getAllCounties_should_returnPopulatedList_when_anyCountiesAreAvailable() {
+  public void getAllCities_should_returnPopulatedList_when_anyCitiesAreAvailable() {
     List<CityEntity> townEntities = buildCityEntityList();
     when(cityRepository.findAll()).thenReturn(townEntities);
 
@@ -67,7 +67,7 @@ public class CityServiceTest {
   }
 
   @Test
-  public void getAllCounties_should_throwException_when_noCountiesAreAvailable() {
+  public void getAllCities_should_throwException_when_noCitiesAreAvailable() {
     when(cityRepository.findAll()).thenReturn(Collections.emptyList());
 
     //ACTION

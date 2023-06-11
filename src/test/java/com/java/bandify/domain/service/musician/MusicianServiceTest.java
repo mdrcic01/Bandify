@@ -1,9 +1,13 @@
 package com.java.bandify.domain.service.musician;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
+import com.java.bandify.controller.api.model.MusicianDTO;
+import com.java.bandify.persistance.db.entity.BandEntity;
+import com.java.bandify.persistance.db.entity.CurrencyEntity;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -38,26 +42,21 @@ public class MusicianServiceTest {
   @Mock
   private MusicianRepository musicianRepository;
   @Mock
-  private InstrumentService instrumentService;
-  @Mock
   private UserService userProfileService;
-  @Captor
-  private ArgumentCaptor<MusicianEntity> musicianEntityArgumentCaptor;
 
 
-//  @Test
-//  public void getMusician_should_returnMusicianDTO_when_requestedMusicianExist() {
-//    MusicianEntity musician = buildMusicianEntity(1,
-//        buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")
-//    );
-//    when(musicianRepository.findById(anyInt())).thenReturn(Optional.of(musician));
-//
-//    //ACTION
-//    MusicianDTO musicianDTO = musicianService.getMusician(1);
-//
-//    assertThat(musicianDTO.getInstrumentIds()).isEqualTo(mapToInstrumentIdList(musician));
-//    assertThat(musicianDTO.getBandId()).isEqualTo(musician.getBand());
-//  }
+  @Test
+  public void getMusician_should_returnMusicianDTO_when_requestedMusicianExist() {
+    MusicianEntity musician = buildMusicianEntity(1,
+        buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")
+    );
+    when(musicianRepository.findById(anyInt())).thenReturn(Optional.of(musician));
+
+    //ACTION
+    MusicianDTO musicianDTO = musicianService.getMusician(1);
+
+    assertThat(musicianDTO.getUserId()).isEqualTo(musician.getId());
+  }
 
   @Test
   public void getMusician_should_throwException_when_requestedMusicianDoesNotExist() {
@@ -67,19 +66,22 @@ public class MusicianServiceTest {
     assertThrows(NoSuchElementException.class, () -> musicianService.getMusician(1));
   }
 
-//  @Test
-//  public void getAllMusicians_should_returnPopulatedList_when_anyMusiciansAreAvailable() {
-//    List<MusicianEntity> musicianEntities = buildMusicianEntityList();
-//    when(musicianRepository.findAll()).thenReturn(musicianEntities);
-//
-//    //ACTION
-//    List<MusicianDTO> musicianDTOs = musicianService.getAllMusicians();
-//
-//    assertThat(musicianDTOs.size()).isEqualTo(musicianEntities.size());
-//    assertThat(musicianDTOs.get(1).getInstrumentIds()).isEqualTo(mapToInstrumentIdList(musicianEntities.get(1)));
-//    assertThat(musicianDTOs.get(2).getBandId()).isEqualTo(musicianEntities.get(2).getBand());
-//
-//  }
+  @Test
+  public void getAllMusicians_should_returnPopulatedList_when_anyMusiciansAreAvailable() {
+    List<UserEntity> users = List.of(
+        buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "mmarkic"),
+        buildUserProfileEntity("Ivan", "Ivanic", 2, "iivanic", "iivanic")
+    );
+    when(musicianRepository.findAll()).thenReturn(users);
+
+    //ACTION
+    List<MusicianDTO> musicianDTOs = musicianService.getAllMusicians();
+
+    assertThat(musicianDTOs.size()).isEqualTo(users.size());
+    assertThat(musicianDTOs.get(0).getUserId()).isEqualTo(users.get(0).getId());
+    assertThat(musicianDTOs.get(1).getUserId()).isEqualTo(users.get(1).getId());
+
+  }
 
   @Test
   public void getAllMusicians_should_throwException_when_noMusiciansAreAvailable() {
@@ -89,55 +91,11 @@ public class MusicianServiceTest {
     assertThrows(NoSuchElementException.class, () -> musicianService.getAllMusicians());
   }
 
-//  @Test
-//  public void addOrEditMusician_should_addNewMusician_when_givenIdIsNull() {
-//    MusicianDTO musicianDTO = buildMusicianDTO();
-//    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "ttest"));
-//    when(musicianRepository.save(musicianEntityArgumentCaptor.capture())).thenReturn(musicianEntity);
-//
-//    //ACTION
-//    MusicianEntity musician = musicianService.addOrEditMusician(musicianDTO, null);
-//
-//    verify(musicianRepository, times(1)).save(musicianEntityArgumentCaptor.capture());
-//    assertThat(musician).isEqualTo(musicianEntity);
-//  }
-
-//  @Test
-//  public void addOrEditMusician_should_editExistingMusician_when_givenIdIsNotNull() {
-//    MusicianDTO musicianDTO = buildMusicianDTO();
-//    MusicianEntity musicianEntity = buildMusicianEntity(1, buildUserProfileEntity("test", "test", 1, "ttest", "ttest"));
-//    when(musicianRepository.save(musicianEntityArgumentCaptor.capture())).thenReturn(musicianEntity);
-//
-//    //ACTION
-//    MusicianEntity musician = musicianService.addOrEditMusician(musicianDTO, 1);
-//
-//    verify(musicianRepository, times(1)).save(musicianEntityArgumentCaptor.capture());
-//    assertThat(musician).isEqualTo(musicianEntity);
-//  }
-
-//  private MusicianDTO buildMusicianDTO() {
-//    return MusicianDTO.builder()
-//        .userId(1)
-//        .bandId(1)
-//        .instrumentIds(List.of(1,2,3))
-//        .build();
-//  }
-
-//  private List<MusicianEntity> buildMusicianEntityList() {
-//    return List.of(
-//        buildMusicianEntity(1, buildUserProfileEntity("Marko", "Markic", 1, "mmarkic", "strongPass")),
-//        buildMusicianEntity(2, buildUserProfileEntity("Ivan", "Ivic", 2, "iivic", "strongPass")),
-//        buildMusicianEntity(3, buildUserProfileEntity("Marin", "Marinic", 3, "mmarinic", "strongPass"))
-//    );
-//  }
-
-//  private MusicianEntity buildMusicianEntity(Integer id, UserEntity userProfile) {
-//    return MusicianEntity.builder()
-//        .id(id)
-//        .userProfile(userProfile)
-//        .instruments(buildInstrumentEntityList())
-//        .build();
-//  }
+  private MusicianEntity buildMusicianEntity(Integer id, UserEntity userProfile) {
+    return new MusicianEntity(userProfile.getUsername(), userProfile.getPassword(), userProfile.getFirstName(),
+        userProfile.getLastName(), userProfile.getUserType(), userProfile.getDateOfBirth(), userProfile.getAuthorities(),
+        userProfile.getCity(), buildBandEntity(), buildInstrumentEntityList());
+  }
 
   private List<InstrumentEntity> buildInstrumentEntityList() {
     return List.of(
@@ -189,7 +147,13 @@ public class MusicianServiceTest {
         .build();
   }
 
-  private List<Integer> mapToInstrumentIdList(MusicianEntity musician) {
-    return musician.getInstruments().stream().map(InstrumentEntity::getId).toList();
+  private BandEntity buildBandEntity() {
+    return BandEntity.builder()
+        .id(1)
+        .price(100)
+        .currency(null)
+        .genre(null)
+        .bandName("test")
+        .build();
   }
 }
